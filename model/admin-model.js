@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const bcrypt = require("bcryptjs");
 const jwt = require('jsonwebtoken');
-const JWT_SECURE_KEY = process.env.JWT_SECURE_KEY
 
 const admin = new Schema({
   email: {
@@ -53,7 +52,7 @@ admin.methods.toJSON = function(){
 admin.methods.generateToken = async function(){
   const admin = this
 
-  const token = jwt.sign({id:admin._id},JWT_SECURE_KEY, {expiresIn:'1h'})
+  const token = jwt.sign({id:admin._id}, process.env.JWT_SECURE_KEY , {expiresIn:'1h'})
   admin.tokens = admin.tokens.concat({token})
   await admin.save()
   return token
