@@ -52,6 +52,20 @@ exports.addDataToMechanic = async (req, res) => {
   }
 };
 
+exports.findOneMechanic = async (req,res)=>{
+  const id = req.params.id
+
+  try {
+    const mechanic = await Mechanic.findById(id)
+    if(!mechanic){
+      res.status(404).send({message:'Mechanic not found'})
+    }
+    res.status(200).send(mechanic)
+  } catch (error) {
+    res.status(500).send(error.message)
+  }
+}
+
 
 
 

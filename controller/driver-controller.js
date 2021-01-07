@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 
 exports.allDrivers = async (req, res) => {
   try {
-    const drivers = await Driver.find();
+    const drivers = await Driver.find()
     return res.status(200).send(drivers);
   } catch (e) {
     return res.status(500).send(e.message);
@@ -32,7 +32,6 @@ exports.addDataToDriver = async (req, res) => {
     req.protocol + "://" + req.get("host") + "/images/" + req.file.filename;
   // console.log(url);
 
-  console.log(data);
   const { name, email, nic, vehicleColor, vehicleNumber, mobile } = data;
   try {
     const driverData = new Driver({
@@ -51,6 +50,19 @@ exports.addDataToDriver = async (req, res) => {
   }
 };
 
+exports.findOneDriver = async (req,res)=>{
+  const id = req.params.id
+
+  try {
+    const driver = await Driver.findById(id)
+    if(!driver){
+      res.status(404).send({message:'Driver not found'})
+    }
+    res.status(200).send(driver)
+  } catch (error) {
+    res.status(500).send(error.message)
+  }
+}
 
 
 exports.deletedriver = async (req, res) => {

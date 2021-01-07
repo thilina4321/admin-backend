@@ -6,6 +6,7 @@ const auth = require('../middleware/auth')
 const multer = require('../middleware/multer')
 
 router.get('/alldrivers', driverController.allDrivers)
+router.get('/one-driver/:id', driverController.findOneDriver)
 router.post('/createdriver', driverController.createDriver)
 router.post('/add-data', multer, driverController.addDataToDriver)
 router.delete('/deletedriver/:id', driverController.deletedriver)
