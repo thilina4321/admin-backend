@@ -11,35 +11,23 @@ exports.allServiceCnter = async(req,res)=>{
   }
 }
 
-exports.createServiceCnter = async(req,res)=>{
-    const data = req.body;
-    console.log(data);
-    try {
-      const hash = await bcrypt.hash(data.password, 8);
-      const serviceCenterModel = new NewServiceCenter({ email: data.email,
-         password: hash });
-      const serviceCenter = await serviceCenterModel.save();
 
-      return res.status(201).send(serviceCenter);
-    } catch (error) {
-      return res.status(403).send(error.message);
-    }
-  };
 
   exports.addDataToServiceCenter = async (req, res) => {
     const data = req.body;
     const image = req.file;
     const url =
       req.protocol + "://" + req.get("host") + "/images/" + req.file.filename;
-    // console.log(url);
 
     console.log(data);
-    const { name, email, nic, openTime, closeTime, mobile, address } = data;
+    const { name, email,password, openTime, closeTime, mobile, address } = data;
     try {
+      const hash = await bcrypt.hash(password, 8);
+
       const serviceCenterData = new ServiceCenter({
         email,
+        password:hash,
         name,
-        nic,
         mobile,
         openTime,
         closeTime,
@@ -81,4 +69,17 @@ exports.deleteServiceCnter = async(req,res)=>{
   }
 }
 
+exports.updateServiceCenter = async(req,res)=>{
+  let data = req.body
+  const id = req.params.id
+  try {
 
+
+
+    const updatedServiceCenter = await ServiceCenter.findByIdAndUpdate(id, data, {new:true, runValidators:true})
+    res.send(updatedServiceCenter)
+
+  } catch (error) {
+    res.status(404).send('User cant find')
+  }
+}

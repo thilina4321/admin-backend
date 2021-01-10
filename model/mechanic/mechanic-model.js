@@ -4,6 +4,7 @@ const Schema = mongoose.Schema
 
 const mechanic = new Schema({
   email:{type:String, required:true},
+  password:{type:String, required:true},
   name:{type:String},
   nic:{type:String},
   mobile:{type:String},

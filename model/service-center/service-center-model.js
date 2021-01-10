@@ -4,8 +4,8 @@ const Schema = mongoose.Schema
 
 const serviceCenter = new Schema({
   email:{type:String, required:true},
+  password:{type:String, required:true},
   name:{type:String},
-  nic:{type:String},
   mobile:{type:String},
   address:{type:String},
   openTime:{type:String},

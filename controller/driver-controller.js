@@ -1,5 +1,4 @@
 const Driver = require("../model/driver/driver-model");
-const NewDriver = require("../model/driver/driver-create");
 const bcrypt = require("bcryptjs");
 
 exports.allDrivers = async (req, res) => {
@@ -11,32 +10,20 @@ exports.allDrivers = async (req, res) => {
   }
 };
 
-exports.createDriver = async (req, res) => {
-  const data = req.body;
-  try {
-    const hash = await bcrypt.hash(data.password, 8);
-    const driverModel = new NewDriver({ email: data.email,
-       password: hash });
-    const driver = await driverModel.save();
-
-    return res.status(201).send(driver);
-  } catch (error) {
-    return res.status(403).send(error.message);
-  }
-};
-
 exports.addDataToDriver = async (req, res) => {
   const data = req.body;
   const image = req.file;
   const url =
     req.protocol + "://" + req.get("host") + "/images/" + req.file.filename;
-  // console.log(url);
 
-  const { name, email, nic, vehicleColor, vehicleNumber, mobile } = data;
+  const { name, email,password, nic, vehicleColor, vehicleNumber, mobile } = data;
   try {
+    const hash = await bcrypt.hash(password, 8);
+
     const driverData = new Driver({
       email,
       name,
+      password:hash,
       nic,
       mobile,
       vehicleNumber,
@@ -74,3 +61,20 @@ exports.deletedriver = async (req, res) => {
     return res.status(500).send(e.message);
   }
 };
+
+exports.updateDriver = async(req,res)=>{
+  let data = req.body
+  console.log(data);
+  const id = req.params.id
+  console.log(id);
+  try {
+
+
+
+    const updatedDriver = await Driver.findByIdAndUpdate(id, data, {new:true, runValidators:true})
+    res.send(updatedDriver)
+
+  } catch (error) {
+    res.status(404).send('User cant find')
+  }
+}

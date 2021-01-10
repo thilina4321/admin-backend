@@ -4,6 +4,7 @@ const Schema = mongoose.Schema
 
 const spareshop = new Schema({
   email:{type:String, required:true},
+  password:{type:String, required:true},
   name:{type:String},
   mobile:{type:String},
   address:{type:String},

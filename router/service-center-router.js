@@ -5,10 +5,10 @@ const servicCenterController = require('../controller/service-center-controller'
 const multer = require('../middleware/multer')
 
 router.get('/allserviceCenters', servicCenterController.allServiceCnter)
-router.post('/create-service', servicCenterController.createServiceCnter)
 router.delete('/deleteservice-center/:id', servicCenterController.deleteServiceCnter)
 router.post('/add-data', multer, servicCenterController.addDataToServiceCenter)
 router.get('/one-service/:id', servicCenterController.findOneServiceCenter)
+router.patch('/update/:id', servicCenterController.updateServiceCenter)
 
 
 module.exports = router

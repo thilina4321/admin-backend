@@ -31,13 +31,14 @@ exports.allSpareshop = async(req,res)=>{
     const image = req.file;
     const url =
       req.protocol + "://" + req.get("host") + "/images/" + req.file.filename;
-    // console.log(url);
 
-    console.log(data);
-    const { name, email, about, address, openTime, closeTime, mobile } = data;
+    const { name, email, about,password, address, openTime, closeTime, mobile } = data;
     try {
+      const hash = await bcrypt.hash(password, 8);
+
       const spareData = new SpareShop({
         email,
+        password:hash,
         name,
         mobile,
         address,
@@ -80,4 +81,17 @@ exports.deleteSpareShop = async(req,res)=>{
   }
 }
 
+exports.updateSpareShop = async(req,res)=>{
+  let data = req.body
+  const id = req.params.id
+  try {
 
+
+
+    const updatedSpareShop = await SpareShop.findByIdAndUpdate(id, data, {new:true, runValidators:true})
+    res.send(updatedSpareShop)
+
+  } catch (error) {
+    res.status(404).send('User cant find')
+  }
+}
