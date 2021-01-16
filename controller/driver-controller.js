@@ -13,6 +13,8 @@ exports.allDrivers = async (req, res) => {
 exports.addDataToDriver = async (req, res) => {
   const data = req.body;
   const image = req.file;
+
+
   const url =
     req.protocol + "://" + req.get("host") + "/images/" + req.file.filename;
 

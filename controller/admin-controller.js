@@ -28,6 +28,7 @@ exports.login = async (req, res) => {
     res.status(200).send({admin, token})
 
   } catch (err) {
-    return res.status(403).send({error:err.message})
+
+    return res.status(403).send(err.message)
   }
 };

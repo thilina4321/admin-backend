@@ -2,7 +2,7 @@ const validator = require("validator");
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const bcrypt = require("bcryptjs");
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 const admin = new Schema({
   email: {
@@ -19,16 +19,15 @@ const admin = new Schema({
     type: String,
     required: true,
   },
-  tokens:[
-    {token:{type:String}}
-  ]
+  tokens: [{ token: { type: String } }],
 });
 
 admin.statics.loginWithEmailAndPassword = async (data) => {
-  const admin = await Admin.findOne({ email: data.email });
-  if (!admin) {
-    throw new Error("Loging failed");
-  }
+  try {
+    const admin = await Admin.findOne({ email: data.email });
+    if (!admin) {
+      throw new Error("Loging failed");
+    }
 
     const compare = await bcrypt.compare(data.password, admin.password);
     if (!compare) {
@@ -36,27 +35,37 @@ admin.statics.loginWithEmailAndPassword = async (data) => {
     }
 
     return admin;
+  } catch (error) {
+    throw new Error("Login Failed");
+  }
+};
 
-}
+admin.methods.toJSON = function () {
+  const admin = this;
+  const adminObject = admin.toObject();
 
-admin.methods.toJSON = function(){
-  const admin = this
-  const adminObject = admin.toObject()
+  delete adminObject.tokens;
+  delete adminObject.password;
 
-  delete adminObject.tokens
-  delete adminObject.password
+  return adminObject;
+};
 
-  return adminObject
-}
+admin.methods.generateToken = async function () {
+  const admin = this;
 
-admin.methods.generateToken = async function(){
-  const admin = this
+  try {
+    const token = jwt.sign({ id: admin._id }, process.env.JWT_SECURE_KEY, {
+      expiresIn: "1h",
+    });
 
-  const token = jwt.sign({id:admin._id}, process.env.JWT_SECURE_KEY , {expiresIn:'1h'})
-  admin.tokens = admin.tokens.concat({token})
-  await admin.save()
-  return token
-}
+    admin.tokens = admin.tokens.concat({ token });
+    await admin.save();
+    return token;
+
+  } catch (error) {
+    throw new Error("Something went wrong");
+  }
+};
 
 const Admin = mongoose.model("admin", admin);
 
