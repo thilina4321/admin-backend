@@ -1,6 +1,49 @@
-const NewServiceCenter = require('../model/service-center/service-center-create')
 const ServiceCenter = require('../model/service-center/service-center-model')
 const bcrypt = require('bcryptjs')
+
+exports.createServiceCenter = async (req, res) => {
+  const data = req.body;
+  let url ;
+
+  if(req.files){
+
+    url = req.protocol + "://" + req.get("host") + "/images/" + req.files[0].filename;
+  }
+
+  const { name, email,password, openTime, closeTime, mobile, address } = data;
+  try {
+    const hash = await bcrypt.hash(password, 8);
+    console.log(url);
+
+    const serviceCenterData = new ServiceCenter({
+      email,
+      password:hash,
+      name,
+      mobile,
+      openTime,
+      closeTime,
+      address,
+      image: url,
+    });
+    const serviceCenter = await serviceCenterData.save();
+    const token = await serviceCenter.generateToken()
+    return res.status(201).send({ serviceCenter, token});
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
+
+
+exports.loginServiceCenter = async (req,res)=>{
+  const data = req.body
+  try {
+    const serviceCenter = await ServiceCenter.loginWithEmailAndPassword(data)
+    const token = await serviceCenter.generateToken()
+    return res.send({serviceCenter, token})
+  } catch (error) {
+    res.status(400).send(error.message)
+  }
+}
 
 exports.allServiceCnter = async(req,res)=>{
   try {
@@ -12,38 +55,8 @@ exports.allServiceCnter = async(req,res)=>{
 }
 
 
-
-  exports.addDataToServiceCenter = async (req, res) => {
-    const data = req.body;
-    const image = req.file;
-    const url =
-      req.protocol + "://" + req.get("host") + "/images/" + req.file.filename;
-
-    console.log(data);
-    const { name, email,password, openTime, closeTime, mobile, address } = data;
-    try {
-      const hash = await bcrypt.hash(password, 8);
-
-      const serviceCenterData = new ServiceCenter({
-        email,
-        password:hash,
-        name,
-        mobile,
-        openTime,
-        closeTime,
-        address,
-        image: url,
-      });
-      await serviceCenterData.save();
-      return res.status(200).send({ message: "Data added correctly" });
-    } catch (error) {
-      res.status(500).send(error.message);
-    }
-  };
-
-
   exports.findOneServiceCenter = async (req,res)=>{
-    const id = req.params.id
+    const id = req.serviceCenter
 
     try {
       const serviceCenter = await ServiceCenter.findById(id)
@@ -59,10 +72,12 @@ exports.allServiceCnter = async(req,res)=>{
 
 
 exports.deleteServiceCnter = async(req,res)=>{
-  const id = req.params.id
-  console.log(id);
+  const id = req.serviceCenter
   try {
     const serviceCenter = await ServiceCenter.findByIdAndDelete(id)
+    if(!serviceCenter){
+      return res.status(404).send('can not find the user')
+    }
     return res.status(200).send(serviceCenter)
   } catch (e) {
     return res.status(500).send(e.message)
@@ -71,11 +86,9 @@ exports.deleteServiceCnter = async(req,res)=>{
 
 exports.updateServiceCenter = async(req,res)=>{
   let data = req.body
-  const id = req.params.id
+  const id = req.serviceCenter
+
   try {
-
-
-
     const updatedServiceCenter = await ServiceCenter.findByIdAndUpdate(id, data, {new:true, runValidators:true})
     res.send(updatedServiceCenter)
 

@@ -3,11 +3,13 @@ const router = express.Router()
 
 const sparepartShopController = require('../controller/sparepart-shop-controller')
 const multer = require('../middleware/multer')
+const auth = require('../middleware/auth/spare-token')
 
+router.post('/add-data', multer, sparepartShopController.createSpareShoo)
+router.post('/login', sparepartShopController.loginSpareShop)
 router.get('/allsparepartShops', sparepartShopController.allSpareshop)
-router.delete('/delete-spareshop/:id', sparepartShopController.deleteSpareShop)
-router.post('/add-data', multer, sparepartShopController.addDataToSpareshop)
-router.get('/one-spareshop/:id', sparepartShopController.findOneSpareShop)
-router.patch('/update/:id', sparepartShopController.updateSpareShop)
+router.delete('/delete-spareshop',auth, sparepartShopController.deleteSpareShop)
+router.get('/one-spareshop',auth, sparepartShopController.findOneSpareShop)
+router.patch('/update',auth, sparepartShopController.updateSpareShop)
 
 module.exports = router

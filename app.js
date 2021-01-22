@@ -13,10 +13,11 @@ const mechanicRouter = require("./router/mechnic-router");
 const serviceCenterRouter = require("./router/service-center-router");
 const sparepartShopRouter = require("./router/sparepart-shop-router");
 const adminRouter = require("./router/admin-router");
+const faqRouter = require('./router/faq-router')
 
 app.use(cors());
 app.use(express.json());
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 const DATABASE_URL = process.env.DATABASE_URL;
 
 app.use("/images", express.static(path.join("images")));
@@ -29,9 +30,14 @@ app.use('/api/report', reports)
 app.use("/api/mechanics", mechanicRouter);
 app.use("/api/service-centers", serviceCenterRouter);
 app.use("/api/sparepart-shops", sparepartShopRouter);
+app.use("/api/faq", faqRouter)
+
+
+
+
 
 mongoose
-  .connect(DATABASE_URL, {
+  .connect(process.env.DATABASE_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,

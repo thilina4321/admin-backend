@@ -2,13 +2,14 @@ const express = require('express')
 const router = express.Router()
 
 const driverController = require('../controller/driver-controller')
-const auth = require('../middleware/auth')
+const auth = require('../middleware/auth/driver-token')
 const multer = require('../middleware/multer')
 
-router.get('/alldrivers', driverController.allDrivers)
-router.get('/one-driver/:id', driverController.findOneDriver)
-router.patch('/update/:id', driverController.updateDriver)
-router.post('/add-data', multer, driverController.addDataToDriver)
-router.delete('/deletedriver/:id', driverController.deletedriver)
+router.post('/add-data', multer, driverController.createDriver)
+router.post('/login', driverController.loginDriver)
+router.get('/alldrivers',auth, driverController.allDrivers)
+router.get('/one-driver',auth, driverController.findOneDriver)
+router.patch('/update',auth, driverController.updateDriver)
+router.delete('/deletedriver',auth, driverController.deletedriver)
 
 module.exports = router

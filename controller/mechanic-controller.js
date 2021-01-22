@@ -1,26 +1,18 @@
 const bcrypt = require("bcryptjs");
 const Mechanic = require("../model/mechanic/mechanic-model");
-const NewMechanic = require("../model/mechanic/mechanic-create");
 
-exports.allMechanics = async (req, res) => {
-  try {
-    const mechanics = await Mechanic.find();
-    return res.status(200).send(mechanics);
-  } catch (e) {
-    return res.status(500).send(e.message);
-  }
-};
-
-
-
-exports.addDataToMechanic = async (req, res) => {
+exports.createMechanic = async (req, res) => {
   const data = req.body;
   const image = req.file;
-  const url =
-    req.protocol + "://" + req.get("host") + "/images/" + req.file.filename;
-  // console.log(url);
 
-  const { name, email, nic, address, about, mobile } = data;
+  let url
+
+  if(req.files){
+    url = req.protocol + "://" + req.get("host") + "/images/" + req.file[0].filename;
+
+  }
+
+  const { name, email, nic, address, about, mobile,userType } = data;
   try {
     const hash = await bcrypt.hash(data.password, 8);
     const mechanicData = new Mechanic({
@@ -28,15 +20,37 @@ exports.addDataToMechanic = async (req, res) => {
       password:hash,
       name,
       nic,
+      userType,
       mobile,
       address,
       about,
       image: url,
     });
-    await mechanicData.save();
-    return res.status(200).send({ message: "Data added correctly" });
+    const mechanic = await mechanicData.save();
+    const token = await mechanic.generateToken()
+    return res.status(201).send({mechanic, token});
   } catch (error) {
     res.status(500).send(error.message);
+  }
+};
+
+exports.loginMechanic = async (req,res)=>{
+  const data = req.body
+  try {
+    const mechanic = await Mechanic.loginWithEmailAndPassword(data)
+    const token = await mechanic.generateToken()
+    return res.send({mechanic, token})
+  } catch (error) {
+    res.status(400).send(error.message)
+  }
+}
+
+exports.allMechanics = async (req, res) => {
+  try {
+    const mechanics = await Mechanic.find();
+    return res.status(200).send(mechanics);
+  } catch (e) {
+    return res.status(500).send(e.message);
   }
 };
 
@@ -55,7 +69,7 @@ exports.findOneMechanic = async (req, res) => {
 };
 
 exports.deleteMechanic = async (req, res) => {
-  const id = req.params.id;
+  const id = req.mechanic;
   try {
     const mechanic = await Mechanic.findByIdAndDelete(id);
     return res.status(200).send(mechanic);
@@ -69,8 +83,6 @@ exports.updateMechanic = async(req,res)=>{
   const id = req.params.id
 
   try {
-
-
 
     const updatedMechanic = await Mechanic.findByIdAndUpdate(id, data, {new:true, runValidators:true})
     return res.send(updatedMechanic)

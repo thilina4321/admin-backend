@@ -20,12 +20,13 @@ const storage = multer.diskStorage({
     cb(null, "images");
   },
   filename: (req, file, cb) => {
+
     const name = file.originalname.split(" ").join("-");
     const ext = MIME_TYPE_MAP[file.mimetype];
     cb(null, name + "-" + Date.now() + "." + ext);
   },
 });
 
-module.exports = multer({ storage: storage, fileFilter: fileFilter }).single(
-  "image"
+module.exports = multer({ storage: storage, fileFilter: fileFilter }).array(
+  "images",2
 );
