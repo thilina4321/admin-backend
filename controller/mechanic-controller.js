@@ -1,49 +1,39 @@
-const bcrypt = require("bcryptjs");
 const Mechanic = require("../model/mechanic/mechanic-model");
+const addImageHelper = require('../helper/image-helper')
 
 exports.createMechanic = async (req, res) => {
   const data = req.body;
-  const image = req.file;
-
-  let url
-
-  if(req.files){
-    url = req.protocol + "://" + req.get("host") + "/images/" + req.file[0].filename;
-
-  }
-
-  const { name, email, nic, address, about, mobile,userType } = data;
+  const user = req.user
+  const token = req.token
   try {
-    const hash = await bcrypt.hash(data.password, 8);
-    const mechanicData = new Mechanic({
-      email,
-      password:hash,
-      name,
-      nic,
-      userType,
-      mobile,
-      address,
-      about,
-      image: url,
-    });
+    const mechanicData = new Mechanic({...data, user});
     const mechanic = await mechanicData.save();
-    const token = await mechanic.generateToken()
+
     return res.status(201).send({mechanic, token});
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error.message);
+  }
+};
+
+exports.addProfileImage = async (req, res) => {
+  const token = req.token;
+  const user = req.user;
+
+  profileImage =
+    req.protocol + "://" + req.get("host") + "/images/" + req.file.filename;
+  try {
+    const {image, error} = await addImageHelper.addImage(Mechanic,user, profileImage);
+    if (error) {
+      return res.status(500).send({ error });
+    }
+    res.send({ profileImage, token });
   } catch (error) {
     res.status(500).send(error.message);
   }
 };
 
-exports.loginMechanic = async (req,res)=>{
-  const data = req.body
-  try {
-    const mechanic = await Mechanic.loginWithEmailAndPassword(data)
-    const token = await mechanic.generateToken()
-    return res.send({mechanic, token})
-  } catch (error) {
-    res.status(400).send(error.message)
-  }
-}
+
 
 exports.allMechanics = async (req, res) => {
   try {
@@ -54,19 +44,19 @@ exports.allMechanics = async (req, res) => {
   }
 };
 
-exports.findOneMechanic = async (req, res) => {
-  const id = req.params.id;
+// exports.findOneMechanic = async (req, res) => {
+//   const id = req.params.id;
 
-  try {
-    const mechanic = await Mechanic.findById(id);
-    if (!mechanic) {
-      res.status(404).send({ message: "Mechanic not found" });
-    }
-    res.status(200).send(mechanic);
-  } catch (error) {
-    res.status(500).send(error.message);
-  }
-};
+//   try {
+//     const mechanic = await Mechanic.findById(id);
+//     if (!mechanic) {
+//       res.status(404).send({ message: "Mechanic not found" });
+//     }
+//     res.status(200).send(mechanic);
+//   } catch (error) {
+//     res.status(500).send(error.message);
+//   }
+// };
 
 exports.deleteMechanic = async (req, res) => {
   const id = req.mechanic;
@@ -81,13 +71,18 @@ exports.deleteMechanic = async (req, res) => {
 exports.updateMechanic = async(req,res)=>{
   let data = req.body
   const id = req.params.id
+  const user = req.user
+  console.log(data);
+  console.log(user);
 
   try {
 
-    const updatedMechanic = await Mechanic.findByIdAndUpdate(id, data, {new:true, runValidators:true})
-    return res.send(updatedMechanic)
+    const updatedMechanic = await Mechanic.findOneAndUpdate({user}, {...data},
+       {new:true, runValidators:true})
+    return res.send({mechanic:updatedMechanic})
 
   } catch (error) {
-    res.status(404).send('User cant find')
+
+    res.status(404).send({error:error.message})
   }
 }

@@ -4,15 +4,15 @@ exports.newQuestion = async(req,res)=>{
   const data = req.body
   const token = req.token
   let url;
-  if(req.files){
-    url = req.protocol + '://' + req.get('host') + '/images/' + req.files[0].filename
+  if(req.file){
+    url = req.protocol + '://' + req.get('host') + '/images/' + req.file.filename
   }
 
   try {
     const question = await FAQ.create({
       question:data.question,
       questionImage:url,
-      driver:req.driver._id
+      driverField:req.user
     })
     const savedQuestion = await question.save()
 
@@ -23,9 +23,19 @@ exports.newQuestion = async(req,res)=>{
   }
 }
 
+exports.question = async(req,res)=>{
+
+  try {
+    const questions = await FAQ.find()
+    res.send(questions)
+  } catch (error) {
+    res.status(500).send(error.message)
+  }
+}
+
 exports.giveAnswer = async(req,res)=>{
   const id = req.params.id
-  const mechanicId = req.mechanic._id
+  const mechanicId = req.user
   const data = req.body
   console.log(data.answer);
 
@@ -35,9 +45,7 @@ exports.giveAnswer = async(req,res)=>{
       return res.status(404).send('Can not find the question')
     }
     const answer = await findQuestion.provideAnswer(mechanicId, data.answer)
-    // console.log('first');
-    // const answeredQuestions = questions.filter(question=>question.answers.length > 0)
-    // console.log('second');
+
     res.send(answer)
 
 
@@ -48,20 +56,28 @@ exports.giveAnswer = async(req,res)=>{
 }
 
 exports.answeredQuestions = async(req,res)=>{
+  if(req.error){
+    return res.status(422).send({error:req.error})
+  }
+
   try {
-    const questions = await FAQ.find()
-    console.log(questions);
-    const answeredQuestion = questions.filter(que=> que.answers.length != 0)
+    const answeredQuestion =  await FAQ.$where('this.answers.length == 0')
+    const a = await FAQ.find().populate({path:'driverField'})
+    console.log(a);
+
     res.send(answeredQuestion)
+
   } catch (error) {
     res.status(500).send(error.message)
   }
 }
 
 exports.notAnsweredQuestions = async(req,res)=>{
+  if(req.error){
+    return res.status(422).send({error:req.error})
+  }
   try {
-    const questions = await FAQ.find()
-    const notansweredQuestion = questions.filter(que=> que.answers.length == 0)
+    const notansweredQuestion = await await FAQ.$where('this.answers.length == 0')
     res.send(notansweredQuestion)
   } catch (error) {
     res.status(500).send(error.message)

@@ -1,21 +1,21 @@
 const jwt = require("jsonwebtoken");
-const Admin = require("../model/admin-model");
+const Auth = require("../model/Auth-model");
 const JWT_SECURE_KEY = process.env.JWT_SECURE_KEY
 
 const auth = async (req, res, next) => {
   const token = req.header("Authorization").replace("Bearer ", "");
   try {
     const decordedToken = await jwt.verify(token, JWT_SECURE_KEY);
-    const admin = await Admin.find({
+    const user = await Auth.findOne({
       _id: decordedToken.id,
       "tokens.token": token,
     });
 
-    if(!admin){
+    if(!user){
       throw new Error('No access')
     }
 
-    req.admin = admin
+    req.user = user._id
     req.token = token
     next();
 

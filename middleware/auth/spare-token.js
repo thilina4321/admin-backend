@@ -1,18 +1,24 @@
 const jwt = require("jsonwebtoken");
-const Spare = require("../../model/spareshop/sparepart-shop-model");
+const SpareShop = require('../../model/spareshop/sparepart-shop-model')
+
 const JWT_SECURE_KEY = process.env.JWT_SECURE_KEY
+const UserType = require('../../enum/userType')
 
 const auth = async(req, res, next) => {
   const token = req.header("Authorization").replace("Bearer ", "");
   try {
     const decordedToken = await jwt.verify(token, JWT_SECURE_KEY);
-    const spare = await Spare.findOne({
+    const spare = await SpareShop.findOne({
       _id: decordedToken.id,
       "tokens.token": token,
     });
 
     if(!spare){
-       new Error('No access')
+      throw new Error('No access')
+    }
+
+    if(spare.role != UserType.SPARE_PART_SHOP){
+      throw new Error("Not allowed to access")
     }
 
     req.spare = spare
@@ -20,7 +26,8 @@ const auth = async(req, res, next) => {
     next();
 
   } catch (err) {
-     new Error(err);
+     req.error = err.message
+     next()
   }
 };
 

@@ -32,12 +32,8 @@ app.use("/api/service-centers", serviceCenterRouter);
 app.use("/api/sparepart-shops", sparepartShopRouter);
 app.use("/api/faq", faqRouter)
 
-
-
-
-
 mongoose
-  .connect(process.env.DATABASE_URL, {
+  .connect('mongodb://127.0.0.1:27017/driver-friend', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,

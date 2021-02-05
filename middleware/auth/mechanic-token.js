@@ -1,10 +1,10 @@
 const jwt = require("jsonwebtoken");
 const Mechanic = require("../../model/mechanic/mechanic-model");
 const JWT_SECURE_KEY = process.env.JWT_SECURE_KEY
+const UserType = require('../../enum/userType')
 
 const auth = async (req, res, next) => {
   const token = req.header("Authorization").replace("Bearer ", "");
-  console.log(token);
   try {
     const decordedToken = await jwt.verify(token, JWT_SECURE_KEY);
     const mechanic = await Mechanic.findOne({
@@ -13,7 +13,11 @@ const auth = async (req, res, next) => {
     });
 
     if(!mechanic){
-       new Error('No access')
+      throw new Error('No access')
+    }
+
+    if(mechanic.role != UserType.MECHANIC){
+      throw new Error("Not allowed to access")
     }
 
     req.mechanic = mechanic
@@ -21,7 +25,8 @@ const auth = async (req, res, next) => {
     next();
 
   } catch (err) {
-     new Error(err);
+     req.error = err.message
+     next()
   }
 };
 
