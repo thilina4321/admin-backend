@@ -12,20 +12,20 @@ router.post('/signup', userController.createDriver)
 router.post('/login', userController.loginDriver)
 
 router.post('/add-data',  driverController.createDriver)
-router.patch('/pro-pic', [Auth, Driver], multer, driverController.addProfileImage)
-router.patch('/cover-pic', [Auth, Driver],multer, driverController.addVehicleImage)
+router.patch('/pro-pic',  multer, driverController.addProfileImage)
+router.patch('/cover-pic', multer, driverController.addVehicleImage)
 
-router.get('/alldrivers',[Auth, Driver], driverController.allDrivers)
-router.patch('/update',[Auth, Driver], driverController.updateDriver)
-router.delete('/delete-driver',[Auth,Driver], driverController.deletedriver)
+router.get('/alldrivers', driverController.allDrivers)
+router.patch('/update', driverController.updateDriver)
+router.delete('/delete-driver', driverController.deletedriver)
 
-router.post('/mechanic-rating', [Auth,Driver], driverController.mechanicRating)
-router.post('/spare-rating', [Auth,Driver], driverController.spareShopRating)
-router.post('/service-rating', [Auth, Driver], driverController.serviceCenterRating)
+router.post('/mechanic-rating',  driverController.mechanicRating)
+router.post('/spare-rating',  driverController.spareShopRating)
+router.post('/service-rating',  driverController.serviceCenterRating)
 
 // search nearest
-router.post('/near-mechanic',[Auth,Driver], driverController.findNeaarestMechanic)
-router.post('/near-service',[Auth,Driver], driverController.findNeaarestServiceCenter)
-router.post('/near-spare',[Auth,Driver], driverController.findNeaarestSpareShop)
+router.post('/near-mechanic', driverController.findNeaarestMechanic)
+router.post('/near-service', driverController.findNeaarestServiceCenter)
+router.post('/near-spare', driverController.findNeaarestSpareShop)
 
 module.exports = router

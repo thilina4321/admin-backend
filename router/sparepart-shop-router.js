@@ -12,15 +12,15 @@ router.post('/login', userController.loginSpareShop)
 
 router.post('/add-data', sparepartShopController.createSpareShop)
 router.patch('/pro-pic',[Auth, SpareShop],multer, sparepartShopController.addProfileImage)
-router.get('/shops',[Auth, SpareShop], sparepartShopController.allSpareshop)
+router.get('/shops', sparepartShopController.allSpareshop)
 
-router.delete('/delete-spareshop',[Auth, SpareShop], sparepartShopController.deleteSpareShop)
-// router.get('/one-spareshop',[Auth, SpareShop], sparepartShopController.findOneSpareShop)
-router.patch('/update',[Auth, SpareShop], sparepartShopController.updateSpareShop)
+router.delete('/delete-spareshop', sparepartShopController.deleteSpareShop)
+// router.get('/one-spareshop', sparepartShopController.findOneSpareShop)
+router.patch('/update', sparepartShopController.updateSpareShop)
 
 // spare parts
-router.post('/create-spare',[Auth, SpareShop], sparepartShopController.createSparePrt)
-router.get('/spares',[Auth, SpareShop], sparepartShopController.getSparePart)
-router.delete('/delete-spare/:id',[Auth, SpareShop], sparepartShopController.deleteSparePart)
+router.post('/create-spare', sparepartShopController.createSparePrt)
+router.get('/spares', sparepartShopController.getSparePart)
+router.delete('/delete-spare/:id', sparepartShopController.deleteSparePart)
 
 module.exports = router

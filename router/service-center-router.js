@@ -11,17 +11,17 @@ router.post('/signup', userController.createMechanic)
 router.post('/login', userController.loginMechanic)
 
 router.post('/add-data', servicCenterController.createServiceCenter)
-router.patch('/pro-pic',[Auth, Service], multer, servicCenterController.addProfileImage)
-router.get('/allserviceCenters',[Auth, Service], servicCenterController.allServiceCnter)
+router.patch('/pro-pic', multer, servicCenterController.addProfileImage)
+router.get('/service-centers', servicCenterController.allServiceCnter)
 
-router.delete('/deleteservice-center',[Auth, Service],
+router.delete('/delete-service-center',
  servicCenterController.deleteServiceCnter)
-// router.get('/one-service',[Auth, Service], servicCenterController.findOneServiceCenter)
-router.patch('/update',[Auth, Service], servicCenterController.updateServiceCenter)
+// router.get('/one-service', servicCenterController.findOneServiceCenter)
+router.patch('/update', servicCenterController.updateServiceCenter)
 
 // services
-router.post('/create-service',[Auth, Service], servicCenterController.createService)
-router.get('/services',[Auth, Service], servicCenterController.getServices)
-router.delete('/delete-service/:id',[Auth, Service], servicCenterController.deleteServices)
+router.post('/create-service', servicCenterController.createService)
+router.get('/services', servicCenterController.getServices)
+router.delete('/delete-service/:id', servicCenterController.deleteServices)
 
 module.exports = router
