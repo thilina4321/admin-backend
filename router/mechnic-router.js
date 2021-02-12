@@ -10,7 +10,7 @@ const Auth = require('../middleware/user')
 router.post('/signup', userController.createMechanic)
 router.post('/login', userController.loginMechanic)
 
-router.post('/add-data',[Auth, Mechanic], mechanicController.createMechanic)
+router.post('/add-data', mechanicController.createMechanic)
 router.patch('/pro-pic',[Auth, Mechanic], multer, mechanicController.addProfileImage)
 
 router.get('/allmechanics',[Auth, Mechanic], mechanicController.allMechanics)

@@ -11,7 +11,7 @@ const multer = require('../middleware/multer')
 router.post('/signup', userController.createDriver)
 router.post('/login', userController.loginDriver)
 
-router.post('/add-data', [Auth, Driver], driverController.createDriver)
+router.post('/add-data',  driverController.createDriver)
 router.patch('/pro-pic', [Auth, Driver], multer, driverController.addProfileImage)
 router.patch('/cover-pic', [Auth, Driver],multer, driverController.addVehicleImage)
 

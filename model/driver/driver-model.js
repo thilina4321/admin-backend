@@ -11,7 +11,7 @@ const driver = new Schema({
   vehicleColor:{type:String},
   profileImage:{type:String},
   vehicleImage:{type:String},
-  userType:{type:UserType},
+  userType:{type:String,enum:UserType},
   latitude:{type:Number},
   longitude:{type:Number},
   city:{type:String},

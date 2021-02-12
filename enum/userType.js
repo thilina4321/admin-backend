@@ -1,8 +1,8 @@
 const UserType = {
-  DRIVER:'DRIVER',
-  MECHANIC:'MECHANIC',
-  SERVICE_CENTER:'SERVICE_CENTER',
-  SPARE_PART_SHOP:'SPARE_PART_SHOP'
+  DRIVER:'driver',
+  MECHANIC:'mechanic',
+  SERVICE_CENTER:'serviceCenter',
+  SPARE_PART_SHOP:'sparePartShop'
 }
 
 module.exports = UserType

@@ -10,7 +10,7 @@ const SpareShop = require('../middleware/auth/spare-token')
 router.post('/signup', userController.createSpareShop)
 router.post('/login', userController.loginSpareShop)
 
-router.post('/add-data',[Auth, SpareShop], sparepartShopController.createSpareShop)
+router.post('/add-data', sparepartShopController.createSpareShop)
 router.patch('/pro-pic',[Auth, SpareShop],multer, sparepartShopController.addProfileImage)
 router.get('/allsparepartShops',[Auth, SpareShop], sparepartShopController.allSpareshop)
 

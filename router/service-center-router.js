@@ -10,7 +10,7 @@ const Auth = require('../middleware/user')
 router.post('/signup', userController.createMechanic)
 router.post('/login', userController.loginMechanic)
 
-router.post('/add-data',[Auth, Service], servicCenterController.createServiceCenter)
+router.post('/add-data', servicCenterController.createServiceCenter)
 router.patch('/pro-pic',[Auth, Service], multer, servicCenterController.addProfileImage)
 router.get('/allserviceCenters',[Auth, Service], servicCenterController.allServiceCnter)
 
