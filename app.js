@@ -33,7 +33,7 @@ app.use("/api/sparepart-shops", sparepartShopRouter);
 app.use("/api/faq", faqRouter)
 
 mongoose
-  .connect('mongodb://127.0.0.1:27017/driver-friend', {
+  .connect(process.env.DATABASE_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
@@ -45,8 +45,8 @@ mongoose
     console.log("database not connected");
   });
 
-app.listen(port, () => {
-  console.log("app runs on port ", port);
+app.listen(process.env.PORT, () => {
+  console.log("app runs on port ", process.env.PORT);
 });
 
 
