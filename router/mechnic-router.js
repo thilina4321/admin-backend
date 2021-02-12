@@ -13,10 +13,10 @@ router.post('/login', userController.loginMechanic)
 router.post('/add-data', mechanicController.createMechanic)
 router.patch('/pro-pic',[Auth, Mechanic], multer, mechanicController.addProfileImage)
 
-router.get('/allmechanics',[Auth, Mechanic], mechanicController.allMechanics)
+router.get('/mechanics',[Auth, Mechanic], mechanicController.allMechanics)
 // router.get('/one-mechanic',[Auth, Mechanic], mechanicController.findOneMechanic)
 router.patch('/update',[Auth, Mechanic], mechanicController.updateMechanic)
-router.delete('/deletemechanic',[Auth, Mechanic], mechanicController.deleteMechanic)
+router.delete('/delete-mechanic',[Auth, Mechanic], mechanicController.deleteMechanic)
 
 
 

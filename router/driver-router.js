@@ -17,7 +17,7 @@ router.patch('/cover-pic', [Auth, Driver],multer, driverController.addVehicleIma
 
 router.get('/alldrivers',[Auth, Driver], driverController.allDrivers)
 router.patch('/update',[Auth, Driver], driverController.updateDriver)
-router.delete('/deletedriver',[Auth,Driver], driverController.deletedriver)
+router.delete('/delete-driver',[Auth,Driver], driverController.deletedriver)
 
 router.post('/mechanic-rating', [Auth,Driver], driverController.mechanicRating)
 router.post('/spare-rating', [Auth,Driver], driverController.spareShopRating)
