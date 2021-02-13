@@ -5,7 +5,7 @@ const validator = require("validator");
 
 const spareshop = new Schema({
 
-  user:{type:Schema.Types.ObjectId, ref:'auth'},
+  shopId:{type:Schema.Types.ObjectId, ref:'auth'},
   mobile: { type: String },
   address: { type: String },
   city: { type: String },

@@ -5,7 +5,7 @@ const validator = require('validator')
 
 const mechanic = new Schema({
 
-  user:{type:Schema.Types.ObjectId, ref:'auth'},
+  mechanicId:{type:Schema.Types.ObjectId, ref:'auth'},
   nic:{type:String},
   mobile:{type:String},
   address:{type:String},
