@@ -19,6 +19,8 @@ const mechanic = new Schema({
       driverId:Schema.Types.ObjectId
     }]
   ,
+  latitude:Number,
+  longitude:Number,
   totalRating:{type:Number, default:0},
   tokens: [{ token: { type: String } }],
 

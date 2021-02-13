@@ -16,6 +16,8 @@ const spareshop = new Schema({
       driverId: Schema.Types.ObjectId,
     },
   ],
+  latitude:Number,
+  longitude:Number,
   openTime: { type: String },
   closeTime: { type: String },
   about: { type: String },

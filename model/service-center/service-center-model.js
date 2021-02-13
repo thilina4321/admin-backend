@@ -12,6 +12,8 @@ const serviceCenter = new Schema({
   closeTime:{type:String},
   image:{type:String},
   city:{type:String},
+  latitude:Number,
+  longitude:Number,
   ratings:
     [{
       rating:{type:Number, default:0},
