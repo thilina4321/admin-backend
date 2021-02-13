@@ -48,7 +48,7 @@ exports.findOneMechanic = async (req, res) => {
   const id = req.params.id;
 
   try {
-    const mechanic = await Mechanic.findById(id);
+    const mechanic = await Mechanic.findOne({mechanicId:id});
     if (!mechanic) {
       res.status(404).send({ message: "Mechanic not found" });
     }

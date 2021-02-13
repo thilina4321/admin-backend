@@ -52,7 +52,7 @@ exports.allServiceCnter = async(req,res)=>{
 
 
     try {
-      const serviceCenter = await ServiceCenter.findById(id)
+      const serviceCenter = await ServiceCenter.findOne({centerId:id})
       if(!serviceCenter){
         res.status(404).send({message:'Service center not found'})
       }
