@@ -57,11 +57,12 @@ exports.addVehicleImage = async (req, res) => {
   }
 };
 
-exports.allDrivers = async (req, res) => {
+exports.driver = async (req, res) => {
   const token = req.token;
+  const id = req.params.id
   try {
-    const drivers = await Driver.find();
-    return res.status(200).send({ drivers, token });
+    const driver = await Driver.findById(id);
+    return res.status(200).send({ driver, token });
   } catch (e) {
     return res.status(500).send(e.message);
   }

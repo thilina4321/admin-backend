@@ -45,19 +45,19 @@ exports.allSpareshop = async(req,res)=>{
   }
 }
 
-  // exports.findOneSpareShop = async (req,res)=>{
-  //   const id = req.spare
+  exports.findOneSpareShop = async (req,res)=>{
+    const id = req.params.id
 
-  //   try {
-  //     const spareshop = await SpareShop.findById(id)
-  //     if(!spareshop){
-  //       res.status(404).send({message:'Spare shop not found'})
-  //     }
-  //     res.status(200).send(spareshop)
-  //   } catch (error) {
-  //     res.status(500).send(error.message)
-  //   }
-  // }
+    try {
+      const spareshop = await SpareShop.findById(id)
+      if(!spareshop){
+        res.status(404).send({message:'Spare shop not found'})
+      }
+      res.status(200).send({spareshop})
+    } catch (error) {
+      res.status(500).send(error.message)
+    }
+  }
 
 exports.deleteSpareShop = async(req,res)=>{
   const id = req.spare

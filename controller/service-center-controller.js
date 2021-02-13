@@ -47,19 +47,20 @@ exports.allServiceCnter = async(req,res)=>{
 }
 
 
-  // exports.findOneServiceCenter = async (req,res)=>{
-  //   const id = req.serviceCenter
+  exports.findOneServiceCenter = async (req,res)=>{
+    const id = req.params.id
 
-  //   try {
-  //     const serviceCenter = await ServiceCenter.findById(id)
-  //     if(!serviceCenter){
-  //       res.status(404).send({message:'Service center not found'})
-  //     }
-  //     res.status(200).send(serviceCenter)
-  //   } catch (error) {
-  //     res.status(500).send(error.message)
-  //   }
-  // }
+
+    try {
+      const serviceCenter = await ServiceCenter.findById(id)
+      if(!serviceCenter){
+        res.status(404).send({message:'Service center not found'})
+      }
+      res.status(200).send({serviceCenter})
+    } catch (error) {
+      res.status(500).send(error.message)
+    }
+  }
 
 
 

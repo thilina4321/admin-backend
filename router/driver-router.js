@@ -15,7 +15,7 @@ router.post('/add-data',  driverController.createDriver)
 router.patch('/pro-pic',  multer, driverController.addProfileImage)
 router.patch('/cover-pic', multer, driverController.addVehicleImage)
 
-router.get('/alldrivers', driverController.allDrivers)
+router.get('/driver', driverController.allDrivers)
 router.patch('/update', driverController.updateDriver)
 router.delete('/delete-driver', driverController.deletedriver)
 
