@@ -10,7 +10,7 @@ exports.createDriver = async (req, res) => {
   try {
     const driverData = new Driver({
       ...data,
-      user: req.user,
+      // driverId: req.user,
     });
 
     const driver = await driverData.save();
