@@ -15,7 +15,7 @@ router.patch('/pro-pic',[Auth, SpareShop],multer, sparepartShopController.addPro
 router.get('/shops', sparepartShopController.allSpareshop)
 
 router.delete('/delete-spareshop', sparepartShopController.deleteSpareShop)
-router.get('/spare-shop', sparepartShopController.findOneSpareShop)
+router.get('/spare-shop/:id', sparepartShopController.findOneSpareShop)
 router.patch('/update', sparepartShopController.updateSpareShop)
 
 // spare parts
