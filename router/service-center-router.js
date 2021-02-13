@@ -7,7 +7,7 @@ const multer = require('../middleware/multer')
 const Service = require('../middleware/auth/service-token')
 const Auth = require('../middleware/user')
 
-router.post('/signup', userController.createMechanic)
+router.post('/signup', userController.createServiceCenter)
 router.post('/login', userController.loginMechanic)
 
 router.post('/add-data', servicCenterController.createServiceCenter)
