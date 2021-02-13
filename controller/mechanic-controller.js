@@ -6,7 +6,7 @@ exports.createMechanic = async (req, res) => {
   const user = req.user
   const token = req.token
   try {
-    const mechanicData = new Mechanic({...data, user});
+    const mechanicData = new Mechanic({...data});
     const mechanic = await mechanicData.save();
 
     return res.status(201).send({mechanic, token});

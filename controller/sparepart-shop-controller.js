@@ -9,7 +9,7 @@ exports.createSpareShop = async (req, res) => {
 
   try {
 
-    const spareData = new SpareShop({...data,user});
+    const spareData = new SpareShop({...data});
     const spareshop = await spareData.save();
 
     return res.status(201).send({ spareshop, token });
