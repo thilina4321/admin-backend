@@ -63,7 +63,7 @@ exports.answeredQuestions = async(req,res)=>{
   try {
     const fetchquiz =  await FAQ.find()
 
-    let answeredQuestion = fetchquiz.answers.lenght > 0
+    let answeredQuestion = fetchquiz.answers.length > 0
 
     res.send({answeredQuestion})
 
@@ -78,7 +78,7 @@ exports.notAnsweredQuestions = async(req,res)=>{
   }
   try {
     const fetchquiz =  await FAQ.find()
-    let notansweredQuestion = fetchquiz.answers.lenght == 0
+    let notansweredQuestion = fetchquiz.answers.length == 0
     res.send({notansweredQuestion})
   } catch (error) {
     res.status(500).send(error.message)
