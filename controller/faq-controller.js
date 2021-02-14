@@ -12,7 +12,7 @@ exports.newQuestion = async(req,res)=>{
     const question = await FAQ.create({
       question:data.question,
       questionImage:url,
-      driverField:req.user
+      driverId:data.driverId
     })
     const savedQuestion = await question.save()
 
@@ -40,7 +40,7 @@ exports.giveAnswer = async(req,res)=>{
   console.log(data.answer);
 
   try {
-    const findQuestion = await FAQ.findById(id)
+    const findQuestion = await FAQ.findById(data.questionId)
     if(!findQuestion){
       return res.status(404).send('Can not find the question')
     }

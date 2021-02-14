@@ -16,7 +16,7 @@ const faq = new Schema({
       answer: { type: String },
     },
   ],
-  driverField:{type:Schema.Types.ObjectId, ref:'auth'}
+  driverId:{type:Schema.Types.ObjectId, ref:'auth'}
 });
 
 
