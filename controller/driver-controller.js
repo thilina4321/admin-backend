@@ -62,6 +62,9 @@ exports.driver = async (req, res) => {
   const id = req.params.id
   try {
     const driver = await Driver.findOne({driverId:id});
+    if(!driver){
+      return res.status(404).send({error:'No driver found'});
+    }
     return res.status(200).send({ driver, token });
   } catch (e) {
     return res.status(500).send(e.message);
