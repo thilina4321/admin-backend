@@ -61,7 +61,7 @@ exports.answeredQuestions = async(req,res)=>{
   }
 
   try {
-    const answeredQuestion =  await FAQ.$where('this.answers.length == 0')
+    const answeredQuestion =  await FAQ.find({"answers.1":{"$exists":true}})
     const a = await FAQ.find().populate({path:'driverField'})
     console.log(a);
 
@@ -77,7 +77,7 @@ exports.notAnsweredQuestions = async(req,res)=>{
     return res.status(422).send({error:req.error})
   }
   try {
-    const notansweredQuestion = await await FAQ.$where('this.answers.length == 0')
+    const notansweredQuestion = await await FAQ.find({"answers.0":{"$exists":true}})
     res.send(notansweredQuestion)
   } catch (error) {
     res.status(500).send(error.message)
