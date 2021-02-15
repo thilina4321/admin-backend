@@ -60,9 +60,9 @@ exports.allSpareshop = async(req,res)=>{
   }
 
 exports.deleteSpareShop = async(req,res)=>{
-  const id = req.spare
+  const id = req.params.id
   try {
-    const spareshop = await SpareShop.findByIdAndDelete(id)
+    const spareshop = await SpareShop.findOneAndDelete({shopId:id})
     if(!spareshop){
       return res.status(404).send('use can not found')
     }

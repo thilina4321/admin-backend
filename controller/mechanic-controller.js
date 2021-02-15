@@ -60,9 +60,9 @@ exports.findOneMechanic = async (req, res) => {
 };
 
 exports.deleteMechanic = async (req, res) => {
-  const id = req.mechanic;
+  const id = req.params.id;
   try {
-    const mechanic = await Mechanic.findByIdAndDelete(id);
+    const mechanic = await Mechanic.findOneAndDelete({mechanicId:id});
     return res.status(200).send(mechanic);
   } catch (e) {
     return res.status(500).send(e.message);

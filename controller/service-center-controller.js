@@ -65,9 +65,9 @@ exports.allServiceCnter = async(req,res)=>{
 
 
 exports.deleteServiceCnter = async(req,res)=>{
-  const id = req.serviceCenter
+  const id = req.params.id
   try {
-    const serviceCenter = await ServiceCenter.findByIdAndDelete(id)
+    const serviceCenter = await ServiceCenter.findOneAndDelete({centerId:id})
     if(!serviceCenter){
       return res.status(404).send('can not find the user')
     }

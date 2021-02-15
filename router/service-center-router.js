@@ -14,7 +14,7 @@ router.post('/add-data', servicCenterController.createServiceCenter)
 router.patch('/pro-pic', multer, servicCenterController.addProfileImage)
 router.get('/service-centers', servicCenterController.allServiceCnter)
 
-router.delete('/delete-service-center',
+router.delete('/delete-service-center/:id',
  servicCenterController.deleteServiceCnter)
 router.get('/service-center/:id', servicCenterController.findOneServiceCenter)
 router.patch('/update', servicCenterController.updateServiceCenter)

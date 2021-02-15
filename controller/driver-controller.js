@@ -75,7 +75,8 @@ exports.driver = async (req, res) => {
 exports.deletedriver = async (req, res) => {
   const id = req.params.id;
   try {
-    const driver = await Driver.findByIdAndDelete(id);
+
+    const driver = await Driver.findOneAndDelete({driverId:id})
     if(!driver){
       return res.status(404).send({error:'Driver not found'})
     }
