@@ -37,7 +37,6 @@ exports.question = async(req,res)=>{
 exports.giveAnswer = async(req,res)=>{
   const mechanicId = req.user
   const {questionId, authorId, answer} = req.body
-  console.log(data.answer);
 
   try {
     const findQuestion = await FAQ.findById(questionId)
