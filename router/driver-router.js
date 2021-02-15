@@ -17,7 +17,7 @@ router.patch('/cover-pic', multer, driverController.addVehicleImage)
 
 router.get('/driver/:id', driverController.driver)
 router.patch('/update', driverController.updateDriver)
-router.delete('/delete-driver', driverController.deletedriver)
+router.delete('/delete-driver/:id', driverController.deletedriver)
 
 router.post('/mechanic-rating',  driverController.mechanicRating)
 router.post('/spare-rating',  driverController.spareShopRating)
