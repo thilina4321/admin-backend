@@ -27,6 +27,7 @@ exports.question = async(req,res)=>{
 
   try {
     const questions = await FAQ.find()
+
     res.send(questions)
   } catch (error) {
     res.status(500).send(error.message)
@@ -34,19 +35,21 @@ exports.question = async(req,res)=>{
 }
 
 exports.giveAnswer = async(req,res)=>{
-  const id = req.params.id
   const mechanicId = req.user
-  const data = req.body
+  const {questionId, authorId, answer} = req.body
   console.log(data.answer);
 
   try {
-    const findQuestion = await FAQ.findById(data.questionId)
+    const findQuestion = await FAQ.findById(questionId)
     if(!findQuestion){
       return res.status(404).send('Can not find the question')
     }
-    const answer = await findQuestion.provideAnswer(mechanicId, data.answer)
+    const {newAnswer, error} = await findQuestion.provideAnswer(authorId, answer)
+    if(error){
+      return res.status(500).send({error})
+    }
 
-    res.send(answer)
+    res.send({answer:newAnswer})
 
 
   } catch (error) {

@@ -24,13 +24,12 @@ faq.methods.provideAnswer = async function(id,ans){
 
   const answer = this
   try {
-    console.log(ans);
     answer.answers = answer.answers.concat({authorId:id, answer:ans})
     const newAnswer = await answer.save()
-    return newAnswer
+    return {newAnswer}
 
   } catch (error) {
-    throw new Error("something went wrong")
+    throw {error:error.message}
   }
 
 }
