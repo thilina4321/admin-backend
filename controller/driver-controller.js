@@ -194,10 +194,9 @@ exports.spareShopRating = async (req, res, next) => {
 
 
 exports.findNeaarestMechanic = async(req,res)=>{
-  const {city} = req.body
 
   try {
-    const mechanics = await Mechanic.find({city})
+    const mechanics = await Mechanic.find()
     res.send(mechanics)
   } catch (error) {
     res.status(500).send({error:error.message})
@@ -205,10 +204,9 @@ exports.findNeaarestMechanic = async(req,res)=>{
 }
 
 exports.findNeaarestServiceCenter = async(req,res)=>{
-  const {city} = req.body
 
   try {
-    const serviceCenters = await ServiceCenter.find({city})
+    const serviceCenters = await ServiceCenter.find()
     res.send(serviceCenters)
   } catch (error) {
     res.status(500).send({error:error.message})
@@ -216,10 +214,9 @@ exports.findNeaarestServiceCenter = async(req,res)=>{
 }
 
 exports.findNeaarestSpareShop = async(req,res)=>{
-  const {city} = req.body
 
   try {
-    const spareParts = await SpareShop.find({city})
+    const spareParts = await SpareShop.find()
     res.send(spareParts)
   } catch (error) {
     res.status(500).send({error:error.message})

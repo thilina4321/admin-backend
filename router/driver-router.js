@@ -24,8 +24,8 @@ router.post('/spare-rating',  driverController.spareShopRating)
 router.post('/service-rating',  driverController.serviceCenterRating)
 
 // search nearest
-router.post('/near-mechanic', driverController.findNeaarestMechanic)
-router.post('/near-service', driverController.findNeaarestServiceCenter)
-router.post('/near-spare', driverController.findNeaarestSpareShop)
+router.get('/near-mechanic', driverController.findNeaarestMechanic)
+router.get('/near-service', driverController.findNeaarestServiceCenter)
+router.get('/near-spare', driverController.findNeaarestSpareShop)
 
 module.exports = router
