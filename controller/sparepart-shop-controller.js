@@ -62,13 +62,24 @@ exports.allSpareshop = async(req,res)=>{
 exports.deleteSpareShop = async(req,res)=>{
   const id = req.params.id
   try {
-    const spareshop = await SpareShop.findOneAndDelete({shopId:id})
-    if(!spareshop){
-      return res.status(404).send('use can not found')
+    // const session = await mongoose.startSession()
+    // session.startTransaction()
+
+    const spare = await SpareShop.findByIdAndRemove({shopId:id})
+    const user = await User.findById(id)
+
+    if(!user){
+      return res.status(404).send({error:'User is not found'});
     }
-    return res.status(200).send(spareshop)
+
+    if(!spare){
+      return res.status(404).send({error:'User is not found'});
+    }
+
+    // session.commitTransaction()
+    return res.status(200).send({message:"User delete successfully"});
   } catch (e) {
-    return res.status(500).send(e.message)
+    return res.status(500).send({error:e.message})
   }
 }
 

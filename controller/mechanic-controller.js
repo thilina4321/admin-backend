@@ -62,10 +62,25 @@ exports.findOneMechanic = async (req, res) => {
 exports.deleteMechanic = async (req, res) => {
   const id = req.params.id;
   try {
+
+    // const session = await mongoose.startSession()
+    // session.startTransaction()
+
     const mechanic = await Mechanic.findOneAndDelete({mechanicId:id});
-    return res.status(200).send(mechanic);
+    const user = await User.findById(id)
+
+    if(!user){
+      return res.status(404).send({error:'User is not found'});
+    }
+
+    if(!mechanic){
+      return res.status(404).send({error:'User is not found'});
+    }
+
+    // session.commitTransaction()
+    return res.status(200).send({message:"User delete successfully"});
   } catch (e) {
-    return res.status(500).send(e.message);
+    return res.status(500).send({error:error.message});
   }
 };
 

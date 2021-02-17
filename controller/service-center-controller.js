@@ -67,13 +67,24 @@ exports.allServiceCnter = async(req,res)=>{
 exports.deleteServiceCnter = async(req,res)=>{
   const id = req.params.id
   try {
-    const serviceCenter = await ServiceCenter.findOneAndDelete({centerId:id})
-    if(!serviceCenter){
-      return res.status(404).send('can not find the user')
+    // const session = await mongoose.startSession()
+    // session.startTransaction()
+
+    const service = await ServiceCenter.findOneAndDelete({centerId:id})
+    const user = await User.findByIdAndDelete(id)
+
+    if(!user){
+      return res.status(404).send({error:'User is not found'});
     }
-    return res.status(200).send(serviceCenter)
+
+    if(!service){
+      return res.status(404).send({error:'User is not found'});
+    }
+
+    // session.commitTransaction()
+    return res.status(200).send({message:"User delete successfully"});
   } catch (e) {
-    return res.status(500).send(e.message)
+    return res.status(500).send({error:e.message})
   }
 }
 

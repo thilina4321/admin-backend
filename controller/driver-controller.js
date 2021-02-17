@@ -3,6 +3,8 @@ const Mechanic = require("../model/mechanic/mechanic-model");
 const ServiceCenter = require("../model/service-center/service-center-model");
 const SpareShop = require("../model/spareshop/sparepart-shop-model");
 const addImageHelper = require("../helper/image-helper");
+const mongoose = require('mongoose')
+const User = require('../model/Auth-model')
 
 exports.createDriver = async (req, res) => {
   const data = req.body;
@@ -61,7 +63,8 @@ exports.driver = async (req, res) => {
   const token = req.token;
   const id = req.params.id
   try {
-    const driver = await Driver.findOne({driverId:id});
+    // const driver = await Driver.findOne({driverId:id});
+    const driver = await User.findOne({_id:id});
     if(!driver){
       return res.status(404).send({error:'No driver found'});
     }
@@ -74,13 +77,36 @@ exports.driver = async (req, res) => {
 
 exports.deletedriver = async (req, res) => {
   const id = req.params.id;
+  let driver;
+  let user;
   try {
 
-    const driver = await Driver.findOneAndDelete({driverId:id})
-    if(!driver){
-      return res.status(404).send({error:'Driver not found'})
+
+     driver = await Driver.findOneAndDelete({driverId:id})
+     user = await User.findByIdAndDelete(id)
+
+    if(!user){
+      return res.status(404).send({error:'User is not found'});
     }
-    return res.status(200).send({ message: "Deleted successfully", driver });
+
+    if(!driver){
+      return res.status(404).send({error:'User is not found'});
+    }
+    // const session = await mongoose.startSession()
+    // session.startTransaction()
+
+    // console.log('hello');
+    // await driver.remove({session:session})
+    // await user.remove({session:session})
+
+    // await driver.save()
+    // await user.save()
+
+    // console.log('hello');
+
+    // session.commitTransaction()
+    return res.status(200).send({message:"User delete successfully"});
+
   } catch (e) {
     return res.status(500).send(e.message);
   }
