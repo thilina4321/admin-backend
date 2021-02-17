@@ -14,7 +14,7 @@ exports.signupUser = async(data, role)=>{
     })
 
     const savedUser = await driver.save()
-    return savedUser
+    return {savedUser}
 
   } catch (error) {
     console.log(error);

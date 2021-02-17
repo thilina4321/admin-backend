@@ -6,13 +6,14 @@ exports.createDriver = async(req,res)=>{
   const data = req.body
 
   try {
-    const user = await signupHelper.signupUser(data, UserType.DRIVER)
-    if(user.error){
-      return res.send({error:user.error})
+    const {savedUser, error} = await signupHelper.signupUser(data, UserType.DRIVER)
+
+    if(error){
+      return res.status(500).send({error})
     }
-    res.send({message:'Account successfully created', user})
+    res.send({message:'Account successfully created', userId:savedUser})
   } catch (error) {
-    res.status(500).send(error.message)
+    res.status(500).send({error:error.message})
   }
 }
 
@@ -33,12 +34,12 @@ exports.createMechanic = async(req,res)=>{
   const data = req.body
 
   try {
-    const user = await signupHelper.signupUser(data, UserType.MECHANIC)
-    if(user.error){
-      console.log(user.error);
-      return res.status(422).send({error:user.error})
+    const {savedUser, error} = await signupHelper.signupUser(data, UserType.MECHANIC)
+
+    if(error){
+      return res.status(500).send({error})
     }
-    res.send({message:'Account successfully created', user})
+    res.send({message:'Account successfully created', userId:savedUser})
   } catch (error) {
     console.log(error);
     res.status(500).send(error.message)
@@ -62,11 +63,12 @@ exports.createSpareShop = async(req,res)=>{
   const data = req.body
 
   try {
-    const user = await signupHelper.signupUser(data, UserType.SPARE_PART_SHOP)
-    if(user.error){
-      return res.send({error:user.error})
+    const {savedUser, error} = await signupHelper.signupUser(data, UserType.SPARE_PART_SHOP)
+
+    if(error){
+      return res.status(500).send({error})
     }
-    res.send({message:'Account successfully created', user})
+    res.send({message:'Account successfully created', user:savedUser})
   } catch (error) {
     res.status(500).send(error.message)
   }
@@ -89,11 +91,12 @@ exports.createServiceCenter = async(req,res)=>{
   const data = req.body
 
   try {
-    const user = await signupHelper.signupUser(data, UserType.SERVICE_CENTER)
-    if(user.error){
-      return res.send({error:user.error})
+    const {savedUser, error} = await signupHelper.signupUser(data, UserType.SERVICE_CENTER)
+
+    if(error){
+      return res.status(500).send({error})
     }
-    res.send({message:'Account successfully created', user})
+    res.send({message:'Account successfully created', userId:savedUser})
   } catch (error) {
     res.status(500).send(error.message)
   }

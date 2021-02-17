@@ -5,9 +5,7 @@ const service = new Schema({
   name:{type:String, required:[true, 'service name is required']},
   price:{type:Number},
   description:{type:String},
-  image:String,
-  serviceCenter:{type:Schema.Types.ObjectId, ref:'auth'},
-
+  image:String
 })
 
 module.exports = mongoose.model('service', service)

@@ -102,10 +102,10 @@ exports.createSparePrt = async(req,res)=>{
   const data = req.body
   const user = req.user
   try {
-    const sparePart = new SparePart({...data, spareShop:user})
+    const sparePart = new SparePart({...data})
     const savesSparePart = await sparePart.save()
 
-    res.send(savesSparePart)
+    res.send({spareParts:savesSparePart})
   } catch (error) {
     res.status(500).send(error.message)
   }
@@ -114,7 +114,7 @@ exports.createSparePrt = async(req,res)=>{
 exports.getSparePart = async(req,res)=>{
   try {
     const spareParts = await SparePart.find()
-    res.send(spareParts)
+    res.send({spareParts})
   } catch (error) {
     res.status(500).send({error:error.message})
   }

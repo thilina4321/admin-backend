@@ -5,7 +5,6 @@ const sparePart = new Schema({
   name:{type:String, required:[true, 'spare part is required']},
   price:{type:Number},
   description:{type:String},
-  spareShop:{type:Schema.Types.ObjectId, ref:'auth'},
   image:String
 })
 

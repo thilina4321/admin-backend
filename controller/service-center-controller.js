@@ -108,10 +108,10 @@ exports.createService = async(req,res)=>{
   const user = req.user
 
   try {
-    const service = new Service({...data, serviceCenter:user})
+    const service = new Service({...data})
     const savedService = await service.save()
 
-    res.send(savedService)
+    res.send({service:savedService})
   } catch (error) {
     res.status(500).send(error.message)
   }
@@ -120,7 +120,7 @@ exports.createService = async(req,res)=>{
 exports.getServices = async(req,res)=>{
   try {
     const services = await Service.find()
-    res.send(services)
+    res.send({services})
   } catch (error) {
     res.status(500).send({error:error.message})
   }
@@ -130,7 +130,6 @@ exports.deleteServices = async(req,res)=>{
   const id = req.params.id
   try {
     await Service.findByIdAndDelete(id)
-
     res.send({message:'Deleted service successfully'})
   } catch (error) {
     req.status(500).send({error:error.message})
