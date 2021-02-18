@@ -12,7 +12,7 @@ const faq = new Schema({
   },
   answers: [
     {
-      authorId:{type:Schema.Types.ObjectId, ref:'mechanic'},
+      authorId:{type:Schema.Types.ObjectId, ref:'auth'},
       answer: { type: String },
     },
   ],

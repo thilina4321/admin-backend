@@ -26,7 +26,7 @@ exports.newQuestion = async(req,res)=>{
 exports.question = async(req,res)=>{
 
   try {
-    const questions = await FAQ.find()
+    const questions = await FAQ.find().populate('answers.authorId driverId')
 
     res.send(questions)
   } catch (error) {
