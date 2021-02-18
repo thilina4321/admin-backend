@@ -50,7 +50,7 @@ exports.allSpareshop = async(req,res)=>{
     const id = req.params.id
 
     try {
-      const spareshop = await SpareShop.findOne({shopId:id})
+      const spareshop = await SpareShop.findOne({userId:id})
       if(!spareshop){
         res.status(404).send({message:'Spare shop not found'})
       }
