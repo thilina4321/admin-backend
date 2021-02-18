@@ -1,5 +1,6 @@
 const Mechanic = require("../model/mechanic/mechanic-model");
 const addImageHelper = require('../helper/image-helper')
+const User = require('../model/Auth-model')
 
 exports.createMechanic = async (req, res) => {
   const data = req.body;
@@ -61,23 +62,14 @@ exports.findOneMechanic = async (req, res) => {
 
 exports.deleteMechanic = async (req, res) => {
   const id = req.params.id;
+  const userId = req.params.userId;
+
   try {
 
-    // const session = await mongoose.startSession()
-    // session.startTransaction()
-
     const mechanic = await Mechanic.findOneAndDelete({mechanicId:id});
-    const user = await User.findById(id)
+    const user = await User.findByIdAndDelete(userId)
 
-    if(!user){
-      return res.status(404).send({error:'User is not found'});
-    }
 
-    if(!mechanic){
-      return res.status(404).send({error:'User is not found'});
-    }
-
-    // session.commitTransaction()
     return res.status(200).send({message:"User delete successfully"});
   } catch (e) {
     return res.status(500).send({error:error.message});

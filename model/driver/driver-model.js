@@ -5,7 +5,7 @@ const validator = require('validator')
 
 const driver = new Schema({
 
-  driverId:{type:Schema.Types.ObjectId, ref:'auth', required:[true, 'Driver id required']},
+  userId:{type:Schema.Types.ObjectId, ref:'auth', required:[true, 'Driver id required']},
   nic:{type:String},
   mobile:{type:String},
   vehicleNumber:{type:String},

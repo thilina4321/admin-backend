@@ -1,6 +1,7 @@
 const SpareShop = require('../model/spareshop/sparepart-shop-model')
 const SparePart = require('../model/spareshop/spare-part-model')
 const addImageHelper = require('../helper/image-helper')
+const User = require('../model/Auth-model')
 
 exports.createSpareShop = async (req, res) => {
   const data = req.body;
@@ -61,22 +62,13 @@ exports.allSpareshop = async(req,res)=>{
 
 exports.deleteSpareShop = async(req,res)=>{
   const id = req.params.id
+  const userId = req.params.userId;
   try {
-    // const session = await mongoose.startSession()
-    // session.startTransaction()
 
-    const spare = await SpareShop.findByIdAndRemove({shopId:id})
-    const user = await User.findById(id)
 
-    if(!user){
-      return res.status(404).send({error:'User is not found'});
-    }
+    const spare = await SpareShop.findByIdAndDelete(id)
+    const user = await User.findByIdAndDelete(userId)
 
-    if(!spare){
-      return res.status(404).send({error:'User is not found'});
-    }
-
-    // session.commitTransaction()
     return res.status(200).send({message:"User delete successfully"});
   } catch (e) {
     return res.status(500).send({error:e.message})
@@ -114,6 +106,9 @@ exports.createSparePrt = async(req,res)=>{
 exports.getSparePart = async(req,res)=>{
   try {
     const spareParts = await SparePart.find()
+    if(!spareParts){
+      return res.status(404).send({error:"No services found"})
+    }
     res.send({spareParts})
   } catch (error) {
     res.status(500).send({error:error.message})

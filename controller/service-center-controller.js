@@ -1,7 +1,7 @@
 const ServiceCenter = require('../model/service-center/service-center-model')
 const Service = require('../model/service-center/service-model')
 const addImageHelper = require('../helper/image-helper')
-
+const User = require('../model/Auth-model')
 
 exports.createServiceCenter = async (req, res) => {
   const data = req.body;
@@ -10,7 +10,7 @@ exports.createServiceCenter = async (req, res) => {
 
   try {
 
-    const serviceCenterData = new ServiceCenter({...data,user });
+    const serviceCenterData = new ServiceCenter({...data });
     const serviceCenter = await serviceCenterData.save();
 
     return res.status(201).send({ serviceCenter, token});
@@ -66,22 +66,13 @@ exports.allServiceCnter = async(req,res)=>{
 
 exports.deleteServiceCnter = async(req,res)=>{
   const id = req.params.id
+  const userId = req.params.userId;
   try {
-    // const session = await mongoose.startSession()
-    // session.startTransaction()
 
-    const service = await ServiceCenter.findOneAndDelete({centerId:id})
-    const user = await User.findByIdAndDelete(id)
 
-    if(!user){
-      return res.status(404).send({error:'User is not found'});
-    }
+    const service = await ServiceCenter.findOneAndDelete(id)
+    const user = await User.findByIdAndDelete(userId)
 
-    if(!service){
-      return res.status(404).send({error:'User is not found'});
-    }
-
-    // session.commitTransaction()
     return res.status(200).send({message:"User delete successfully"});
   } catch (e) {
     return res.status(500).send({error:e.message})
@@ -120,6 +111,9 @@ exports.createService = async(req,res)=>{
 exports.getServices = async(req,res)=>{
   try {
     const services = await Service.find()
+    if(!services){
+      return res.status(404).send({error:"No services found"})
+    }
     res.send({services})
   } catch (error) {
     res.status(500).send({error:error.message})

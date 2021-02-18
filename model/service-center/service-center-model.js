@@ -5,7 +5,7 @@ const validator = require('validator')
 
 const serviceCenter = new Schema({
 
-  centerId:{type:Schema.Types.ObjectId, ref:'auth'},
+  userId:{type:Schema.Types.ObjectId, ref:'auth'},
   mobile:{type:String},
   address:{type:String},
   openTime:{type:String},
