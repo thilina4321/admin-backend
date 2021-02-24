@@ -107,10 +107,10 @@ exports.updateDriver = async (req, res) => {
 
 exports.mechanicRating = async (req, res, next) => {
   const driver = req.user;
-  const { rating, mechanicId } = req.body;
+  const { rating, id } = req.body;
 
   try {
-    const findSomeOneForRate = await Mechanic.findById(mechanicId);
+    const findSomeOneForRate = await Mechanic.findById(id);
     if (!findSomeOneForRate) {
       return res.send("Can not find Mechanic");
     }
@@ -137,10 +137,10 @@ exports.mechanicRating = async (req, res, next) => {
 
 exports.serviceCenterRating = async (req, res, next) => {
   const driver = req.user;
-  const { rating, serviceCenterId } = req.body;
+  const { rating, id } = req.body;
 
   try {
-    const findSomeOneForRate = await ServiceCenter.findById(serviceCenterId);
+    const findSomeOneForRate = await ServiceCenter.findById(id);
     if (!findSomeOneForRate) {
       return res.send("Can not find Service Center");
     }
@@ -167,10 +167,10 @@ exports.serviceCenterRating = async (req, res, next) => {
 
 exports.spareShopRating = async (req, res, next) => {
   const driver = req.user;
-  const { rating, spareShopId } = req.body;
+  const { rating, id } = req.body;
 
   try {
-    const findSomeOneForRate = await SpareShop.findById(spareShopId);
+    const findSomeOneForRate = await SpareShop.findById(id);
     if (!findSomeOneForRate) {
       return res.send("Can not find Spare part shop");
     }

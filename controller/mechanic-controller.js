@@ -48,7 +48,6 @@ exports.allMechanics = async (req, res) => {
 exports.findOneMechanic = async (req, res) => {
   const id = req.params.id;
 
-
   try {
     const mechanic = await Mechanic.findOne({userId:id});
     if (!mechanic) {
@@ -69,7 +68,6 @@ exports.deleteMechanic = async (req, res) => {
     const mechanic = await Mechanic.findOneAndDelete({mechanicId:id});
     const user = await User.findByIdAndDelete(userId)
 
-
     return res.status(200).send({message:"User delete successfully"});
   } catch (e) {
     return res.status(500).send({error:error.message});
@@ -78,10 +76,7 @@ exports.deleteMechanic = async (req, res) => {
 
 exports.updateMechanic = async(req,res)=>{
   let data = req.body
-  const id = req.params.id
   const user = req.user
-  console.log(data);
-  console.log(user);
 
   try {
 

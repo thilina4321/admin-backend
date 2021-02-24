@@ -50,7 +50,6 @@ exports.allServiceCnter = async(req,res)=>{
   exports.findOneServiceCenter = async (req,res)=>{
     const id = req.params.id
 
-
     try {
       const serviceCenter = await ServiceCenter.findOne({userId:id})
       if(!serviceCenter){
