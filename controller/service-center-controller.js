@@ -111,7 +111,7 @@ exports.getServices = async(req,res)=>{
   try {
     const services = await Service.find()
     if(!services){
-      return res.status(404).send({error:"No services found"})
+      return res.status(404).send({error:"No service found"})
     }
     res.send({services})
   } catch (error) {
