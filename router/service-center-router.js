@@ -21,7 +21,7 @@ router.patch('/update', servicCenterController.updateServiceCenter)
 
 // services
 router.post('/create-service', servicCenterController.createService)
-router.get('/services', servicCenterController.getServices)
+router.get('/services/:centerId', servicCenterController.getServices)
 router.delete('/delete-service/:id', servicCenterController.deleteServices)
 
 module.exports = router

@@ -20,7 +20,7 @@ router.patch('/update', sparepartShopController.updateSpareShop)
 
 // spare parts
 router.post('/create-spare', sparepartShopController.createSparePrt)
-router.get('/spares', sparepartShopController.getSparePart)
+router.get('/spares/:shopId', sparepartShopController.getSparePart)
 router.delete('/delete-spare/:id', sparepartShopController.deleteSparePart)
 
 module.exports = router

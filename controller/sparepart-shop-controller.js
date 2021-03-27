@@ -104,8 +104,9 @@ exports.createSparePrt = async(req,res)=>{
 }
 
 exports.getSparePart = async(req,res)=>{
+  const shopId = req.params.shopId
   try {
-    const spareParts = await SparePart.find()
+    const spareParts = await SparePart.find({centerId: shopId})
     if(!spareParts){
       return res.status(404).send({error:"No services found"})
     }
