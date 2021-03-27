@@ -200,6 +200,9 @@ exports.findNeaarestMechanic = async(req,res)=>{
 
   try {
     const mechanics = await Mechanic.find()
+    if(!mechanics){
+      res.status(404).send({error:'No mechanics found'})
+    }
     res.send(mechanics)
   } catch (error) {
     res.status(500).send({error:error.message})
@@ -210,6 +213,9 @@ exports.findNeaarestServiceCenter = async(req,res)=>{
 
   try {
     const serviceCenters = await ServiceCenter.find()
+    if(!serviceCenters){
+      res.status(404).send({error:'No service center found'})
+    }
     res.send(serviceCenters)
   } catch (error) {
     res.status(500).send({error:error.message})
@@ -220,6 +226,9 @@ exports.findNeaarestSpareShop = async(req,res)=>{
 
   try {
     const spareParts = await SpareShop.find()
+    if(!spareParts){
+      res.status(404).send({error:'No spare part shop found'})
+    }
     res.send(spareParts)
   } catch (error) {
     res.status(500).send({error:error.message})
