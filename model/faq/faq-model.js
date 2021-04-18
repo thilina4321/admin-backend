@@ -10,29 +10,28 @@ const faq = new Schema({
   questionImage: {
     type: String,
   },
-  answers: [
-    {
-      authorId:{type:Schema.Types.ObjectId, ref:'auth'},
-      answer: { type: String },
-    },
-  ],
-  driverId:{type:Schema.Types.ObjectId, ref:'auth'}
+  answers: {
+    type: [
+      {
+        authorId: { type: Schema.Types.ObjectId, ref: "auth" },
+        answer: { type: String },
+      },
+    ],
+    default: [],
+  },
+  driverId: { type: Schema.Types.ObjectId, ref: "auth" },
 });
 
-
-faq.methods.provideAnswer = async function(id,ans){
-
-  const answer = this
+faq.methods.provideAnswer = async function (id, ans) {
+  const answer = this;
   try {
-    answer.answers = answer.answers.concat({authorId:id, answer:ans})
-    const newAnswer = await answer.save()
-    return {newAnswer}
-
+    answer.answers = answer.answers.concat({ authorId: id, answer: ans });
+    const newAnswer = await answer.save();
+    return { newAnswer };
   } catch (error) {
-    throw {error:error.message}
+    throw { error: error.message };
   }
-
-}
+};
 
 const FAQ = mongoose.model("faq", faq);
-module.exports = FAQ
+module.exports = FAQ;

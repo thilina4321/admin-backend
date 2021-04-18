@@ -9,7 +9,7 @@ exports.newQuestion = async(req,res)=>{
   }
 
   try {
-    const question = await FAQ.create({
+    const question = new FAQ({
       question:data.question,
       questionImage:url,
       driverId:data.driverId
@@ -57,17 +57,15 @@ exports.giveAnswer = async(req,res)=>{
   }
 }
 
-exports.answeredQuestions = async(req,res)=>{
+exports.questions = async(req,res)=>{
   if(req.error){
     return res.status(422).send({error:req.error})
   }
 
   try {
-    const fetchquiz =  await FAQ.find()
+    const fetchquiz =  await FAQ.find().populate('answers.authorId')
 
-    let answeredQuestion = fetchquiz.answers.length > 0
-
-    res.send({answeredQuestion})
+    res.send({fetchquiz})
 
   } catch (error) {
     res.status(500).send(error.message)

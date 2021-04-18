@@ -11,7 +11,7 @@ const Auth = require('../middleware/user')
 router.post('/create', multer, faqController.newQuestion)
 router.delete('/delete/:id', faqController.deleteFAQ)
 router.post('/give-answer', faqController.giveAnswer)
-router.get('/answered', faqController.answeredQuestions)
+router.get('/questions', faqController.questions)
 router.get('/not-answered', faqController.notAnsweredQuestions)
 router.get('/all', faqController.question)
 
