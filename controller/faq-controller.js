@@ -63,8 +63,7 @@ exports.questions = async(req,res)=>{
   }
 
   try {
-    const fetchquiz =  await FAQ.find().populate('answers.authorId')
-
+    const fetchquiz =  await FAQ.find().populate('driverId answers.authorId')
     res.send({fetchquiz})
 
   } catch (error) {
