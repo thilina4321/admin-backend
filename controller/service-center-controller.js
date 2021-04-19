@@ -112,9 +112,9 @@ exports.createService = async(req,res)=>{
 }
 
 exports.getServices = async(req,res)=>{
-  const centerId = req.params.shopId
+  const shopId = req.params.centerId
   try {
-    const services = await Service.find({centerId})
+    const services = await Service.find({ shopId})
     if(!services){
       return res.status(404).send({error:"No service found"})
     }
