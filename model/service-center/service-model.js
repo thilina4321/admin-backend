@@ -6,7 +6,7 @@ const service = new Schema({
   price:{type:Number},
   description:{type:String},
   image:String,
-  shopId:{type:Schema.Types.ObjectId, required:true}
+  shopId:{type:Schema.Types.ObjectId, required:true , ref:'auth'}
 })
 
 module.exports = mongoose.model('service', service)

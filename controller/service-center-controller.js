@@ -95,15 +95,19 @@ exports.updateServiceCenter = async(req,res)=>{
 
 exports.createService = async(req,res)=>{
   const data = req.body
-  const user = req.user
 
   try {
-    const service = new Service({...data})
+    const service = new Service({
+      name:data.name,
+      price:data.price,
+      description:data.description,
+      shopId:data.shopId
+    })
     const savedService = await service.save()
 
     res.send({service:savedService})
   } catch (error) {
-    res.status(500).send(error.message)
+    res.status(500).send({error:error.message})
   }
 }
 
