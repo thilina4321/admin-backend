@@ -24,4 +24,8 @@ router.post('/create-service',multer, servicCenterController.createService)
 router.get('/services/:centerId', servicCenterController.getServices)
 router.delete('/delete-service/:id', servicCenterController.deleteServices)
 
+//appointments
+router.get('/appointments/:centerId', servicCenterController.getAppointments)
+router.get('/approve', servicCenterController.approveAppointment)
+
 module.exports = router

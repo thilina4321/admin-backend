@@ -28,4 +28,7 @@ router.get('/near-mechanic', driverController.findNeaarestMechanic)
 router.get('/near-service', driverController.findNeaarestServiceCenter)
 router.get('/near-spare', driverController.findNeaarestSpareShop)
 
+router.post('/make-appointment', driverController.makeAppointment)
+router.get('/find-appointments/:driverId', driverController.findAppointments)
+
 module.exports = router

@@ -4,6 +4,7 @@ const ServiceCenter = require("../model/service-center/service-center-model");
 const SpareShop = require("../model/spareshop/sparepart-shop-model");
 const addImageHelper = require("../helper/image-helper");
 const User = require('../model/Auth-model')
+const Appointment = require('../model/appointment')
 
 exports.createDriver = async (req, res) => {
   const data = req.body;
@@ -230,6 +231,29 @@ exports.findNeaarestSpareShop = async(req,res)=>{
       res.status(404).send({error:'No spare part shop found'})
     }
     res.send(spareParts)
+  } catch (error) {
+    res.status(500).send({error:error.message})
+  }
+}
+
+exports.makeAppointment = async(req,res)=>{
+  const data = req.body
+  try {
+    await Appointment.create({...data})
+
+
+    res.status(201).send({message:'Appointment make succesffuly'})
+  } catch (error) {
+    res.status(500).send({error:error.message})
+  }
+}
+
+exports.findAppointments = async(req,res)=>{
+  const {driverId} = req.params
+  try {
+    const appointment = await Appointment.find({driverId})
+
+    res.status(201).send({appointment})
   } catch (error) {
     res.status(500).send({error:error.message})
   }

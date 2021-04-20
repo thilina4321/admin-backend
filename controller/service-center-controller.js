@@ -2,6 +2,7 @@ const ServiceCenter = require('../model/service-center/service-center-model')
 const Service = require('../model/service-center/service-model')
 const addImageHelper = require('../helper/image-helper')
 const User = require('../model/Auth-model')
+const Appointment = require('../model/appointment')
 
 exports.createServiceCenter = async (req, res) => {
   const data = req.body;
@@ -131,5 +132,31 @@ exports.deleteServices = async(req,res)=>{
     res.send({message:'Deleted service successfully'})
   } catch (error) {
     req.status(500).send({error:error.message})
+  }
+}
+
+exports.getAppointments = async(req,res)=>{
+  const {centerId} = req.params
+  try {
+    const appointment = await Appointment.find({centerId})
+
+    res.status(201).send({appointment})
+  } catch (error) {
+    res.status(500).send({error:error.message})
+  }
+}
+
+exports.approveAppointment = async(req,res)=>{
+  const {status, id} = req.body
+  try {
+    const appointment = await Appointment.findByIdAndUpdate(id, {status}, {new:true})
+    if(!appointment){
+      res.status(404).send({message:'No Appointment found'})
+    }
+
+    res.status(200).send({appointment})
+
+  } catch (error) {
+    res.status(500).send({error:error.message})
   }
 }
