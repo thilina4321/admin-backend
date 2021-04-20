@@ -135,6 +135,19 @@ exports.deleteServices = async(req,res)=>{
   }
 }
 
+
+exports.editService = async(req,res)=>{
+  const id = req.params.id
+  const data = req.body
+  try {
+    await Service.findByIdAndUpdate(id, {...data}, {new:true})
+    res.send({message:'Updated service successfully'})
+  } catch (error) {
+    req.status(500).send({error:error.message})
+  }
+}
+
+
 exports.getAppointments = async(req,res)=>{
   const {centerId} = req.params
   try {

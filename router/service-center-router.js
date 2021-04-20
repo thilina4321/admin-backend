@@ -23,6 +23,7 @@ router.patch('/update', servicCenterController.updateServiceCenter)
 router.post('/create-service',multer, servicCenterController.createService)
 router.get('/services/:centerId', servicCenterController.getServices)
 router.delete('/delete-service/:id', servicCenterController.deleteServices)
+router.patch('/edit-service/:id', servicCenterController.editService)
 
 //appointments
 router.get('/appointments/:centerId', servicCenterController.getAppointments)
