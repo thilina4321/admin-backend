@@ -164,7 +164,7 @@ exports.serviceCenterRating = async (req, res, next) => {
   try {
     const findSomeOneForRate = await ServiceCenter.findById(id);
     if (!findSomeOneForRate) {
-      return res.send("Can not find Service Center");
+      return res.status(404).send({error:"Can not find Service Center"});
     }
 
     const findRatedOneOrNot = findSomeOneForRate.ratings.find(
@@ -216,7 +216,7 @@ exports.spareShopRating = async (req, res, next) => {
   try {
     const findSomeOneForRate = await SpareShop.findById(id);
     if (!findSomeOneForRate) {
-      return res.send("Can not find Spare part shop");
+      return  res.status(404).send({error:"Can not find spare part shop"});;
     }
 
     const findRatedOneOrNot = findSomeOneForRate.ratings.find(
