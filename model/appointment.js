@@ -6,7 +6,10 @@ const appointment = new Schema({
   centerId:{type:Schema.Types.ObjectId, ref:'serviceCenter'},
   time:{type:String},
   date:{type:String},
-  status:{type:String}
+  status:{type:String},
+  centerName:{type:String},
+  centerMobile:{type:String},
+  serviceName:{type:String},
 })
 
 module.exports = mongoose.model('appointment', appointment)
