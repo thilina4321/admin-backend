@@ -19,9 +19,13 @@ router.get('/driver/:id', driverController.driver)
 router.patch('/update', driverController.updateDriver)
 router.delete('/delete-driver/:id/:userId', driverController.deletedriver)
 
+// ratings
 router.post('/mechanic-rating',  driverController.mechanicRating)
+router.get('/my-mechanic-rating/:id/:driverId',  driverController.driversRatingsForMechanic)
 router.post('/spare-rating',  driverController.spareShopRating)
+router.get('/my-spare-rating/:id/:driverId',  driverController.driversRatingsForSpareShop)
 router.post('/service-rating',  driverController.serviceCenterRating)
+router.get('/my-service-rating/:id/:driverId',  driverController.driversRatingsForServiceCenter)
 
 // search nearest
 router.get('/near-mechanic', driverController.findNeaarestMechanic)

@@ -107,17 +107,16 @@ exports.updateDriver = async (req, res) => {
 };
 
 exports.mechanicRating = async (req, res, next) => {
-  const driver = req.user;
-  const { rating, id } = req.body;
+  const { rating, id , driverId } = req.body;
 
   try {
     const findSomeOneForRate = await Mechanic.findById(id);
     if (!findSomeOneForRate) {
-      return res.send("Can not find Mechanic");
+      return res.status(404).send({message:"Can not find Mechanic"});
     }
 
     const findRatedOneOrNot = findSomeOneForRate.ratings.find(
-      (rating) => rating.driverId.toString() == driver._id.toString()
+      (rating) => rating.driverId.toString() == driverId.toString()
     );
 
     if (findRatedOneOrNot) {
@@ -126,7 +125,7 @@ exports.mechanicRating = async (req, res, next) => {
       await findSomeOneForRate.save();
       return res.send(findSomeOneForRate);
     } else {
-      findSomeOneForRate.ratings.push({ rating, driverId: driver._id });
+      findSomeOneForRate.ratings.push({ rating, driverId: driverId });
       findSomeOneForRate.totalRating += rating;
       await findSomeOneForRate.save();
       return res.send(findSomeOneForRate);
@@ -136,9 +135,31 @@ exports.mechanicRating = async (req, res, next) => {
   }
 };
 
+exports.driversRatingsForMechanic = async(req,res)=>{
+  const {id,driverId} = req.params
+  try {
+    const findSomeOneForRate = await Mechanic.findById(id);
+    if (!findSomeOneForRate) {
+      return res.status(404).send({message:"Can not find Mechanic"});
+    }
+    const findRatedOneOrNot = findSomeOneForRate.ratings.find(
+      (rating) => rating.driverId.toString() == driverId.toString()
+    );
+
+    if (findRatedOneOrNot) {
+
+      return res.send({rating:findRatedOneOrNot.rating});
+    } else {
+      return res.send({rating:0});
+    }
+
+  } catch (error) {
+    res.status(500).send({message:error.message})
+  }
+}
+
 exports.serviceCenterRating = async (req, res, next) => {
-  const driver = req.user;
-  const { rating, id } = req.body;
+  const { rating, id, driverId } = req.body;
 
   try {
     const findSomeOneForRate = await ServiceCenter.findById(id);
@@ -147,7 +168,7 @@ exports.serviceCenterRating = async (req, res, next) => {
     }
 
     const findRatedOneOrNot = findSomeOneForRate.ratings.find(
-      (rating) => rating.driverId.toString() == driver._id.toString()
+      (rating) => rating.driverId.toString() == driverId.toString()
     );
 
     if (findRatedOneOrNot) {
@@ -156,7 +177,7 @@ exports.serviceCenterRating = async (req, res, next) => {
       await findSomeOneForRate.save();
       return res.send(findSomeOneForRate);
     } else {
-      findSomeOneForRate.ratings.push({ rating, driverId: driver._id });
+      findSomeOneForRate.ratings.push({ rating, driverId: driverId });
       findSomeOneForRate.totalRating += rating;
       await findSomeOneForRate.save();
       return res.send(findSomeOneForRate);
@@ -166,9 +187,31 @@ exports.serviceCenterRating = async (req, res, next) => {
   }
 };
 
+exports.driversRatingsForServiceCenter = async(req,res)=>{
+  const {id,driverId} = req.params
+  try {
+    const findSomeOneForRate = await ServiceCenter.findById(id);
+    if (!findSomeOneForRate) {
+      return res.status(404).send({message:"Can not find service center"});
+    }
+    const findRatedOneOrNot = findSomeOneForRate.ratings.find(
+      (rating) => rating.driverId.toString() == driverId.toString()
+    );
+
+    if (findRatedOneOrNot) {
+
+      return res.send({rating:findRatedOneOrNot.rating});
+    } else {
+      return res.send({rating:0});
+    }
+
+  } catch (error) {
+    res.status(500).send({message:error.message})
+  }
+}
+
 exports.spareShopRating = async (req, res, next) => {
-  const driver = req.user;
-  const { rating, id } = req.body;
+  const { rating, id, driverId } = req.body;
 
   try {
     const findSomeOneForRate = await SpareShop.findById(id);
@@ -177,7 +220,7 @@ exports.spareShopRating = async (req, res, next) => {
     }
 
     const findRatedOneOrNot = findSomeOneForRate.ratings.find(
-      (rating) => rating.driverId.toString() == driver._id.toString()
+      (rating) => rating.driverId.toString() == driverId.toString()
     );
 
     if (findRatedOneOrNot) {
@@ -186,7 +229,7 @@ exports.spareShopRating = async (req, res, next) => {
       await findSomeOneForRate.save();
       return res.send(findSomeOneForRate);
     } else {
-      findSomeOneForRate.ratings.push({ rating, driverId: driver._id });
+      findSomeOneForRate.ratings.push({ rating, driverId: driverId });
       findSomeOneForRate.totalRating += rating;
       await findSomeOneForRate.save();
       return res.send(findSomeOneForRate);
@@ -195,6 +238,29 @@ exports.spareShopRating = async (req, res, next) => {
     res.status(404).send(error.message);
   }
 };
+
+exports.driversRatingsForSpareShop = async(req,res)=>{
+  const {id,driverId} = req.params
+  try {
+    const findSomeOneForRate = await SpareShop.findById(id);
+    if (!findSomeOneForRate) {
+      return res.status(404).send({message:"Can not find Shop"});
+    }
+    const findRatedOneOrNot = findSomeOneForRate.ratings.find(
+      (rating) => rating.driverId.toString() == driverId.toString()
+    );
+
+    if (findRatedOneOrNot) {
+
+      return res.send({rating:findRatedOneOrNot.rating});
+    } else {
+      return res.send({rating:0});
+    }
+
+  } catch (error) {
+    res.status(500).send({message:error.message})
+  }
+}
 
 
 exports.findNeaarestMechanic = async(req,res)=>{
