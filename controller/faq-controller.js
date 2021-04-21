@@ -35,7 +35,6 @@ exports.question = async(req,res)=>{
 }
 
 exports.giveAnswer = async(req,res)=>{
-  const mechanicId = req.user
   const {questionId, authorId, answer} = req.body
 
   try {
@@ -54,6 +53,51 @@ exports.giveAnswer = async(req,res)=>{
   } catch (error) {
     res.status(500).send(error.message)
 
+  }
+}
+
+exports.editAnswer = async(req,res)=>{
+  const {id,answerId } = req.params
+  const {answer} = req.body
+
+  try {
+    const findQuestion = await FAQ.findById(id)
+    if(!findQuestion){
+      return res.status(404).send('Can not find the question')
+    }
+    console.log(findQuestion.answers);
+    const filtered =  findQuestion.answers.find(element => element._id == answerId);
+
+    filtered.answer = answer
+    await filtered.save()
+    console.log(filtered);
+
+    res.status(200).send({filtered})
+  } catch (error) {
+    res.status(500).send({error:error.message})
+  }
+}
+
+exports.deleteAnswer = async(req,res)=>{
+  const {questionId, answerId} = req.params
+
+  try {
+    const findQuestion = await FAQ.findById(questionId)
+    if(!findQuestion){
+      return res.status(404).send({message:'Can not find the question'})
+    }
+
+    console.log(findQuestion.answers);
+    const filtered =  findQuestion.answers.filter(element => element._id != answerId);
+
+    console.log(filtered);
+    await filtered.save()
+
+    res.status(200).send({filtered})
+
+
+  } catch (error) {
+    res.status(500).send({error:error.message})
   }
 }
 
