@@ -16,7 +16,7 @@ router.get('/shops', sparepartShopController.allSpareshop)
 
 router.delete('/delete-spareshop/:id/:userId', sparepartShopController.deleteSpareShop)
 router.get('/spare-shop/:id', sparepartShopController.findOneSpareShop)
-router.patch('/update', sparepartShopController.updateSpareShop)
+router.patch('/update/:id', sparepartShopController.updateSpareShop)
 
 // spare parts
 router.post('/create-spare', sparepartShopController.createSparePrt)

@@ -81,12 +81,11 @@ exports.deleteServiceCnter = async(req,res)=>{
 
 exports.updateServiceCenter = async(req,res)=>{
   let data = req.body
-  const id = req.serviceCenter
-  const user = req.user
+  const id = req.params.id
 
   try {
-    const updatedServiceCenter = await ServiceCenter.findOneAndUpdate({user}, {...data}, {new:true, runValidators:true})
-    res.send(updatedServiceCenter)
+    await ServiceCenter.findOneAndUpdate(id, {...data}, {new:true, runValidators:true})
+    res.send({'message':'update succedd'})
 
   } catch (error) {
     res.status(404).send('User cant find')

@@ -76,13 +76,13 @@ exports.deleteMechanic = async (req, res) => {
 
 exports.updateMechanic = async(req,res)=>{
   let data = req.body
-  const user = req.user
+  const id = req.params.id
 
   try {
 
-    const updatedMechanic = await Mechanic.findOneAndUpdate({user}, {...data},
+    await Mechanic.findOneAndUpdate(id, {...data},
        {new:true, runValidators:true})
-    return res.send({mechanic:updatedMechanic})
+    return res.status(200).send({'message':'Update succeed'})
 
   } catch (error) {
 

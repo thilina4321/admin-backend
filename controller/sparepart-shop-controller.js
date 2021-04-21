@@ -77,11 +77,11 @@ exports.deleteSpareShop = async(req,res)=>{
 
 exports.updateSpareShop = async(req,res)=>{
   let data = req.body
-  const user = req.user
+  const id = req.params.id
   try {
 
-    const updatedSpareShop = await SpareShop.findOneAndUpdate({user}, {...data}, {new:true, runValidators:true})
-    res.send(updatedSpareShop)
+    await SpareShop.findOneAndUpdate({user}, {...data}, {new:true, runValidators:true})
+    res.status(200).send({'message':'update succeed'})
 
   } catch (error) {
     console.log(error.message);
@@ -109,7 +109,7 @@ exports.getSparePart = async(req,res)=>{
     if(!spareParts){
       return res.status(404).send({error:"No services found"})
     }
-    res.send({spareParts})
+    res.status(200).send({spareParts})
   } catch (error) {
     res.status(500).send({error:error.message})
   }

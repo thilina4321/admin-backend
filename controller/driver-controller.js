@@ -3,8 +3,8 @@ const Mechanic = require("../model/mechanic/mechanic-model");
 const ServiceCenter = require("../model/service-center/service-center-model");
 const SpareShop = require("../model/spareshop/sparepart-shop-model");
 const addImageHelper = require("../helper/image-helper");
-const User = require('../model/Auth-model')
-const Appointment = require('../model/appointment')
+const User = require("../model/Auth-model");
+const Appointment = require("../model/appointment");
 
 exports.createDriver = async (req, res) => {
   const data = req.body;
@@ -30,7 +30,11 @@ exports.addProfileImage = async (req, res) => {
   profileImage =
     req.protocol + "://" + req.get("host") + "/images/" + req.file.filename;
   try {
-    const {image, error} = await addImageHelper.addImage(Driver,user, profileImage);
+    const { image, error } = await addImageHelper.addImage(
+      Driver,
+      user,
+      profileImage
+    );
     if (error) {
       return res.status(500).send({ error });
     }
@@ -52,7 +56,7 @@ exports.addVehicleImage = async (req, res) => {
       runValidators: true,
       new: true,
     });
-    res.send({vehicleImage, token});
+    res.send({ vehicleImage, token });
   } catch (error) {
     res.status(500).send(error.message);
   }
@@ -60,12 +64,12 @@ exports.addVehicleImage = async (req, res) => {
 
 exports.driver = async (req, res) => {
   const token = req.token;
-  const id = req.params.id
+  const id = req.params.id;
   try {
     // const driver = await Driver.findOne({driverId:id});
-    const driver = await Driver.findOne({userId:id});
-    if(!driver){
-      return res.status(404).send({error:'No driver found'});
+    const driver = await Driver.findOne({ userId: id });
+    if (!driver) {
+      return res.status(404).send({ error: "No driver found" });
     }
     return res.status(200).send({ driver, token });
   } catch (e) {
@@ -73,18 +77,15 @@ exports.driver = async (req, res) => {
   }
 };
 
-
 exports.deletedriver = async (req, res) => {
   const id = req.params.id;
   const userId = req.params.userId;
 
   try {
+    await Driver.findByIdAndDelete(id);
+    await User.findByIdAndDelete(userId);
 
-     await Driver.findByIdAndDelete(id)
-     await User.findByIdAndDelete(userId)
-
-    return res.status(200).send({message:"User delete successfully"});
-
+    return res.status(200).send({ message: "User delete successfully" });
   } catch (e) {
     return res.status(500).send(e.message);
   }
@@ -92,27 +93,25 @@ exports.deletedriver = async (req, res) => {
 
 exports.updateDriver = async (req, res) => {
   let data = req.body;
-  console.log(data);
-  const id = req.user;
-  console.log(id);
+  const id = req.params.id;
   try {
-    const updatedDriver = await Driver.findByIdAndUpdate(id, data, {
+    await Driver.findByIdAndUpdate(id, data, {
       new: true,
       runValidators: true,
     });
-    res.send(updatedDriver);
+    res.status(200).send({ message: "succedd" });
   } catch (error) {
-    res.status(404).send("User cant find");
+    res.status(500).send({ error: error.message });
   }
 };
 
 exports.mechanicRating = async (req, res, next) => {
-  const { rating, id , driverId } = req.body;
+  const { rating, id, driverId } = req.body;
 
   try {
     const findSomeOneForRate = await Mechanic.findById(id);
     if (!findSomeOneForRate) {
-      return res.status(404).send({message:"Can not find Mechanic"});
+      return res.status(404).send({ message: "Can not find Mechanic" });
     }
 
     const findRatedOneOrNot = findSomeOneForRate.ratings.find(
@@ -135,28 +134,26 @@ exports.mechanicRating = async (req, res, next) => {
   }
 };
 
-exports.driversRatingsForMechanic = async(req,res)=>{
-  const {id,driverId} = req.params
+exports.driversRatingsForMechanic = async (req, res) => {
+  const { id, driverId } = req.params;
   try {
     const findSomeOneForRate = await Mechanic.findById(id);
     if (!findSomeOneForRate) {
-      return res.status(404).send({message:"Can not find Mechanic"});
+      return res.status(404).send({ message: "Can not find Mechanic" });
     }
     const findRatedOneOrNot = findSomeOneForRate.ratings.find(
       (rating) => rating.driverId.toString() == driverId.toString()
     );
 
     if (findRatedOneOrNot) {
-
-      return res.send({rating:findRatedOneOrNot.rating});
+      return res.send({ rating: findRatedOneOrNot.rating });
     } else {
-      return res.send({rating:0});
+      return res.send({ rating: 0 });
     }
-
   } catch (error) {
-    res.status(500).send({message:error.message})
+    res.status(500).send({ message: error.message });
   }
-}
+};
 
 exports.serviceCenterRating = async (req, res, next) => {
   const { rating, id, driverId } = req.body;
@@ -164,7 +161,7 @@ exports.serviceCenterRating = async (req, res, next) => {
   try {
     const findSomeOneForRate = await ServiceCenter.findById(id);
     if (!findSomeOneForRate) {
-      return res.status(404).send({error:"Can not find Service Center"});
+      return res.status(404).send({ error: "Can not find Service Center" });
     }
 
     const findRatedOneOrNot = findSomeOneForRate.ratings.find(
@@ -187,28 +184,26 @@ exports.serviceCenterRating = async (req, res, next) => {
   }
 };
 
-exports.driversRatingsForServiceCenter = async(req,res)=>{
-  const {id,driverId} = req.params
+exports.driversRatingsForServiceCenter = async (req, res) => {
+  const { id, driverId } = req.params;
   try {
     const findSomeOneForRate = await ServiceCenter.findById(id);
     if (!findSomeOneForRate) {
-      return res.status(404).send({message:"Can not find service center"});
+      return res.status(404).send({ message: "Can not find service center" });
     }
     const findRatedOneOrNot = findSomeOneForRate.ratings.find(
       (rating) => rating.driverId.toString() == driverId.toString()
     );
 
     if (findRatedOneOrNot) {
-
-      return res.send({rating:findRatedOneOrNot.rating});
+      return res.send({ rating: findRatedOneOrNot.rating });
     } else {
-      return res.send({rating:0});
+      return res.send({ rating: 0 });
     }
-
   } catch (error) {
-    res.status(500).send({message:error.message})
+    res.status(500).send({ message: error.message });
   }
-}
+};
 
 exports.spareShopRating = async (req, res, next) => {
   const { rating, id, driverId } = req.body;
@@ -216,7 +211,7 @@ exports.spareShopRating = async (req, res, next) => {
   try {
     const findSomeOneForRate = await SpareShop.findById(id);
     if (!findSomeOneForRate) {
-      return  res.status(404).send({error:"Can not find spare part shop"});;
+      return res.status(404).send({ error: "Can not find spare part shop" });
     }
 
     const findRatedOneOrNot = findSomeOneForRate.ratings.find(
@@ -239,88 +234,81 @@ exports.spareShopRating = async (req, res, next) => {
   }
 };
 
-exports.driversRatingsForSpareShop = async(req,res)=>{
-  const {id,driverId} = req.params
+exports.driversRatingsForSpareShop = async (req, res) => {
+  const { id, driverId } = req.params;
   try {
     const findSomeOneForRate = await SpareShop.findById(id);
     if (!findSomeOneForRate) {
-      return res.status(404).send({message:"Can not find Shop"});
+      return res.status(404).send({ message: "Can not find Shop" });
     }
     const findRatedOneOrNot = findSomeOneForRate.ratings.find(
       (rating) => rating.driverId.toString() == driverId.toString()
     );
 
     if (findRatedOneOrNot) {
-
-      return res.send({rating:findRatedOneOrNot.rating});
+      return res.send({ rating: findRatedOneOrNot.rating });
     } else {
-      return res.send({rating:0});
+      return res.send({ rating: 0 });
     }
-
   } catch (error) {
-    res.status(500).send({message:error.message})
+    res.status(500).send({ message: error.message });
   }
-}
+};
 
-
-exports.findNeaarestMechanic = async(req,res)=>{
-
+exports.findNeaarestMechanic = async (req, res) => {
   try {
-    const mechanics = await Mechanic.find()
-    if(!mechanics){
-      res.status(404).send({error:'No mechanics found'})
+    const mechanics = await Mechanic.find();
+    if (!mechanics) {
+      res.status(404).send({ error: "No mechanics found" });
     }
-    res.send(mechanics)
+    res.send(mechanics);
   } catch (error) {
-    res.status(500).send({error:error.message})
+    res.status(500).send({ error: error.message });
   }
-}
+};
 
-exports.findNeaarestServiceCenter = async(req,res)=>{
-
+exports.findNeaarestServiceCenter = async (req, res) => {
   try {
-    const serviceCenters = await ServiceCenter.find()
-    if(!serviceCenters){
-      res.status(404).send({error:'No service center found'})
+    const serviceCenters = await ServiceCenter.find();
+    if (!serviceCenters) {
+      res.status(404).send({ error: "No service center found" });
     }
-    res.send(serviceCenters)
+    res.send(serviceCenters);
   } catch (error) {
-    res.status(500).send({error:error.message})
+    res.status(500).send({ error: error.message });
   }
-}
+};
 
-exports.findNeaarestSpareShop = async(req,res)=>{
-
+exports.findNeaarestSpareShop = async (req, res) => {
   try {
-    const spareParts = await SpareShop.find()
-    if(!spareParts){
-      res.status(404).send({error:'No spare part shop found'})
+    const spareParts = await SpareShop.find();
+    if (!spareParts) {
+      res.status(404).send({ error: "No spare part shop found" });
     }
-    res.send(spareParts)
+    res.send(spareParts);
   } catch (error) {
-    res.status(500).send({error:error.message})
+    res.status(500).send({ error: error.message });
   }
-}
+};
 
-exports.makeAppointment = async(req,res)=>{
-  const data = req.body
+exports.makeAppointment = async (req, res) => {
+  const data = req.body;
   try {
-    await Appointment.create({...data})
+    await Appointment.create({ ...data });
 
-
-    res.status(201).send({message:'Appointment make succesffuly'})
+    res.status(201).send({ message: "Appointment make succesffuly" });
   } catch (error) {
-    res.status(500).send({error:error.message})
+    res.status(500).send({ error: error.message });
   }
-}
+};
 
-exports.findAppointments = async(req,res)=>{
-  const {driverId} = req.params
+exports.findAppointments = async (req, res) => {
+  const { driverId } = req.params;
   try {
-    const appointment = await Appointment.find({driverId})
+    const appointment = await Appointment.find({ driverId });
 
-    res.status(201).send({appointment})
+    res.status(201).send({ appointment });
   } catch (error) {
-    res.status(500).send({error:error.message})
+    res.status(500).send({ error: error.message });
   }
-}
+};

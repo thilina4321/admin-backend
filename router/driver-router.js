@@ -16,7 +16,7 @@ router.patch('/pro-pic',  multer, driverController.addProfileImage)
 router.patch('/cover-pic', multer, driverController.addVehicleImage)
 
 router.get('/driver/:id', driverController.driver)
-router.patch('/update', driverController.updateDriver)
+router.patch('/update/:id', driverController.updateDriver)
 router.delete('/delete-driver/:id/:userId', driverController.deletedriver)
 
 // ratings

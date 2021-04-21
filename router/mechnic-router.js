@@ -15,7 +15,7 @@ router.patch('/pro-pic', multer, mechanicController.addProfileImage)
 
 router.get('/mechanics', mechanicController.allMechanics)
 router.get('/mechanic/:id', mechanicController.findOneMechanic)
-router.patch('/update', mechanicController.updateMechanic)
+router.patch('/update/:id', mechanicController.updateMechanic)
 router.delete('/delete-mechanic/:id/:userId', mechanicController.deleteMechanic)
 
 
