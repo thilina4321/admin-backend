@@ -10,6 +10,8 @@ const spareshop = new Schema({
   address: { type: String },
   city: { type: String },
   totalRating: { type: Number, default: 0 },
+  mapImagePreview:{type:String},
+
   ratings: [
     {
       rating: { type: Number, default: 0 },

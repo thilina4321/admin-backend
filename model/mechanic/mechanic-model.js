@@ -19,6 +19,8 @@ const mechanic = new Schema({
       driverId:Schema.Types.ObjectId
     }]
   ,
+  mapImagePreview:{type:String},
+
   latitude:Number,
   longitude:Number,
   totalRating:{type:Number, default:0},

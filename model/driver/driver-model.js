@@ -17,6 +17,7 @@ const driver = new Schema({
   latitude:{type:Number},
   longitude:{type:Number},
   city:{type:String},
+  mapImagePreview:{type:String}
 
 })
 

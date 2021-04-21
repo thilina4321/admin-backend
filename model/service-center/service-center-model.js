@@ -13,6 +13,8 @@ const serviceCenter = new Schema({
   image:{type:String},
   city:{type:String},
   latitude:Number,
+  mapImagePreview:{type:String},
+
   longitude:Number,
   ratings:
     [{
