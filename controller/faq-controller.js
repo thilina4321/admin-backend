@@ -56,6 +56,7 @@ exports.giveAnswer = async(req,res)=>{
   }
 }
 
+
 exports.editAnswer = async(req,res)=>{
   const {id,answerId } = req.params
   const {answer} = req.body
@@ -63,13 +64,13 @@ exports.editAnswer = async(req,res)=>{
   try {
     const findQuestion = await FAQ.findById(id)
     if(!findQuestion){
-      return res.status(404).send('Can not find the question')
+      return res.status(404).send({message:'Can not find the question'})
     }
     console.log(findQuestion.answers);
     const filtered =  findQuestion.answers.find(element => element._id == answerId);
 
     filtered.answer = answer
-    await filtered.save()
+    await findQuestion.save()
     console.log(filtered);
 
     res.status(200).send({filtered})
@@ -79,21 +80,20 @@ exports.editAnswer = async(req,res)=>{
 }
 
 exports.deleteAnswer = async(req,res)=>{
-  const {questionId, answerId} = req.params
+  const {id, answerId} = req.params
 
   try {
-    const findQuestion = await FAQ.findById(questionId)
+    const findQuestion = await FAQ.findById(id)
     if(!findQuestion){
       return res.status(404).send({message:'Can not find the question'})
     }
 
+    findQuestion.answers =  findQuestion.answers.filter(element => element._id != answerId);
+
     console.log(findQuestion.answers);
-    const filtered =  findQuestion.answers.filter(element => element._id != answerId);
+    await findQuestion.save()
 
-    console.log(filtered);
-    await filtered.save()
-
-    res.status(200).send({filtered})
+    res.status(200).send({message:'succeed'})
 
 
   } catch (error) {
