@@ -92,7 +92,6 @@ exports.updateSpareShop = async(req,res)=>{
 
 exports.createSparePrt = async(req,res)=>{
   const data = req.body
-  const user = req.user
   try {
     const sparePart = new SparePart({...data})
     const savesSparePart = await sparePart.save()
@@ -106,7 +105,7 @@ exports.createSparePrt = async(req,res)=>{
 exports.getSparePart = async(req,res)=>{
   const shopId = req.params.shopId
   try {
-    const spareParts = await SparePart.find({centerId: shopId})
+    const spareParts = await SparePart.find({ shopId})
     if(!spareParts){
       return res.status(404).send({error:"No services found"})
     }
@@ -122,6 +121,18 @@ exports.deleteSparePart = async(req,res)=>{
     await SparePart.findByIdAndDelete(id)
 
     res.send({message:'Deleted spare part successfully'})
+  } catch (error) {
+    req.status(500).send({error:error.message})
+  }
+}
+
+exports.editSparePart = async(req,res)=>{
+  const id = req.params.id
+  const data = req.body
+  try {
+    await SparePart.findByIdAndUpdate(id, {...data}, {new:true})
+
+    res.send({message:'Updated spare part successfully'})
   } catch (error) {
     req.status(500).send({error:error.message})
   }
