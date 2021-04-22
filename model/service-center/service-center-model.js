@@ -23,6 +23,7 @@ const serviceCenter = new Schema({
       driverId:Schema.Types.ObjectId
     }],
     totalRating:{type:Number, default:0},
+    count:{type:Number, default:0},
 
 
 

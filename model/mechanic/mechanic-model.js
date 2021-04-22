@@ -13,6 +13,8 @@ const mechanic = new Schema({
   about:{type:String},
   image:{type:String},
   city:{type:String},
+  count:{type:Number, default:0},
+
   userType:{type:String},
   ratings:
     [{

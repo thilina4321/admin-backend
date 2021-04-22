@@ -12,6 +12,8 @@ const spareshop = new Schema({
   city: { type: String },
   totalRating: { type: Number, default: 0 },
   mapImagePreview:{type:String},
+  count:{type:Number, default:0},
+
 
   ratings: [
     {
