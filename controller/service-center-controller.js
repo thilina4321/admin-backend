@@ -150,7 +150,7 @@ exports.editService = async(req,res)=>{
 exports.getAppointments = async(req,res)=>{
   const {centerId} = req.params
   try {
-    const appointment = await Appointment.find({centerId})
+    const appointment = await Appointment.find({centerId}).populate('driverId centerId')
 
     res.status(201).send({appointment})
   } catch (error) {

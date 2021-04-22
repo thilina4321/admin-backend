@@ -169,13 +169,15 @@ exports.serviceCenterRating = async (req, res, next) => {
     );
 
     if (findRatedOneOrNot) {
-      findSomeOneForRate.totalRating += rating - findRatedOneOrNot.rating;
+      let totalCounters = findSomeOneForRate.ratings.length
+      findSomeOneForRate.totalRating = (findSomeOneForRate.totalRating + rating - findRatedOneOrNot.rating)/totalCounters;
       findRatedOneOrNot.rating = rating;
       await findSomeOneForRate.save();
       return res.send(findSomeOneForRate);
     } else {
+      let totalCounters = findSomeOneForRate.ratings.length + 1
       findSomeOneForRate.ratings.push({ rating, driverId: driverId });
-      findSomeOneForRate.totalRating += rating;
+      findSomeOneForRate.totalRating = (findSomeOneForRate.totalRating + rating)/totalCounters;
       await findSomeOneForRate.save();
       return res.send(findSomeOneForRate);
     }
