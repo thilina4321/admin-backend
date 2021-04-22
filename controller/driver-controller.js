@@ -119,15 +119,18 @@ exports.mechanicRating = async (req, res, next) => {
     );
 
     if (findRatedOneOrNot) {
-      findSomeOneForRate.totalRating = (findSomeOneForRate.totalRating + rating - findRatedOneOrNot.rating)/(findSomeOneForRate.count);
+      findSomeOneForRate.totalRating =
+        (findSomeOneForRate.totalRating + rating - findRatedOneOrNot.rating) /
+        (findSomeOneForRate.count);
       findRatedOneOrNot.rating = rating;
       await findSomeOneForRate.save();
       return res.send(findSomeOneForRate);
     } else {
-      findSomeOneForRate.count += 1
+      findSomeOneForRate.count += 1;
 
       findSomeOneForRate.ratings.push({ rating, driverId: driverId });
-      findSomeOneForRate.totalRating = (findSomeOneForRate.totalRating + rating)/(findSomeOneForRate.count);
+      findSomeOneForRate.totalRating =
+        (findSomeOneForRate.totalRating + rating) / (findSomeOneForRate.count);
       await findSomeOneForRate.save();
       return res.send(findSomeOneForRate);
     }
@@ -171,14 +174,17 @@ exports.serviceCenterRating = async (req, res, next) => {
     );
 
     if (findRatedOneOrNot) {
-      findSomeOneForRate.totalRating = (findSomeOneForRate.totalRating + rating - findRatedOneOrNot.rating)/(findSomeOneForRate.count);
+      findSomeOneForRate.totalRating =
+        (findSomeOneForRate.totalRating + rating - findRatedOneOrNot.rating) /
+        (findSomeOneForRate.count);
       findRatedOneOrNot.rating = rating;
       await findSomeOneForRate.save();
       return res.send(findSomeOneForRate);
     } else {
-      findSomeOneForRate.count += 1
+      findSomeOneForRate.count += 1;
       findSomeOneForRate.ratings.push({ rating, driverId: driverId });
-      findSomeOneForRate.totalRating = (findSomeOneForRate.totalRating + rating)/(findSomeOneForRate.count);
+      findSomeOneForRate.totalRating =
+        (findSomeOneForRate.totalRating + rating) / (findSomeOneForRate.count);
       await findSomeOneForRate.save();
       return res.send(findSomeOneForRate);
     }
@@ -222,15 +228,18 @@ exports.spareShopRating = async (req, res, next) => {
     );
 
     if (findRatedOneOrNot) {
-      findSomeOneForRate.totalRating = (findSomeOneForRate.totalRating + rating - findRatedOneOrNot.rating)/(findSomeOneForRate.count);
+      findSomeOneForRate.totalRating =
+        (findSomeOneForRate.totalRating + rating - findRatedOneOrNot.rating) /
+        (findSomeOneForRate.count);
       findRatedOneOrNot.rating = rating;
       await findSomeOneForRate.save();
       return res.send(findSomeOneForRate);
     } else {
-      findSomeOneForRate.count += 1
+      findSomeOneForRate.count += 1;
 
       findSomeOneForRate.ratings.push({ rating, driverId: driverId });
-      findSomeOneForRate.totalRating = (findSomeOneForRate.totalRating + rating)/(findSomeOneForRate.count);
+      findSomeOneForRate.totalRating =
+        (findSomeOneForRate.totalRating + rating) / (findSomeOneForRate.count);
       await findSomeOneForRate.save();
       return res.send(findSomeOneForRate);
     }
