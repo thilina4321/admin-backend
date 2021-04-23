@@ -192,7 +192,7 @@ exports.changeAppointmentStatuc = async (req, res) => {
   try {
     const appointment = await Appointment.findByIdAndUpdate(id, {status}, {new:true});
 
-    res.status(201).send({ appointment });
+    res.status(200).send({ appointment });
   } catch (error) {
     res.status(500).send({ error: error.message });
   }

@@ -21,7 +21,7 @@ router.patch('/update/:id', servicCenterController.updateServiceCenter)
 
 // appointments
 router.get('/get-appointments/:centerId', servicCenterController.findAppointments)
-router.post('/change-status/:id', servicCenterController.changeAppointmentStatuc)
+router.patch('/change-status', servicCenterController.changeAppointmentStatuc)
 
 // services
 router.post('/create-service',multer, servicCenterController.createService)
