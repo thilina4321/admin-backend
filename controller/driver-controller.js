@@ -318,6 +318,10 @@ exports.findAppointments = async (req, res) => {
   try {
     const appointment = await Appointment.find({ driverId });
 
+    if(!appointment){
+      return res.status(404).send({'message':'No Appointment found'})
+    }
+
     res.status(201).send({ appointment });
   } catch (error) {
     res.status(500).send({ error: error.message });

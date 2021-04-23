@@ -172,3 +172,29 @@ exports.approveAppointment = async(req,res)=>{
     res.status(500).send({error:error.message})
   }
 }
+
+exports.findAppointments = async (req, res) => {
+  const { centerId } = req.params;
+  try {
+    const appointment = await Appointment.find({ centerId });
+    if(!appointment){
+      return res.status(404).send({'message':'No appointments found'})
+    }
+
+    res.status(201).send({ appointment });
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+};
+
+exports.changeAppointmentStatuc = async (req, res) => {
+  const { id, status } = req.body;
+  try {
+    const appointment = await Appointment.findByIdAndUpdate(id, {status}, {new:true});
+
+    res.status(201).send({ appointment });
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+};
+

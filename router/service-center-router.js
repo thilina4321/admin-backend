@@ -19,6 +19,10 @@ router.delete('/delete-service-center/:id/:userId',
 router.get('/service-center/:id', servicCenterController.findOneServiceCenter)
 router.patch('/update/:id', servicCenterController.updateServiceCenter)
 
+// appointments
+router.get('/get-appointments/:centerId', servicCenterController.findAppointments)
+router.post('/change-status/:id', servicCenterController.changeAppointmentStatuc)
+
 // services
 router.post('/create-service',multer, servicCenterController.createService)
 router.get('/services/:centerId', servicCenterController.getServices)
