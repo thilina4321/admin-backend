@@ -37,7 +37,7 @@ exports.createDriver = async (req, res) => {
 
 exports.addProfileImage = async(req,res)=>{
     const {data} = req.body
-    const id = req.body
+    const id = req.params
 
     try {
         const image = await cloudinary.uploader.upload(data)
