@@ -20,20 +20,17 @@ exports.createSpareShop = async (req, res) => {
 };
 
 exports.addProfileImage = async (req, res) => {
-  const token = req.token;
-  const user = req.user;
+  const {profileImage} = req.body
+    const {id} = req.params
 
-  profileImage =
-    req.protocol + "://" + req.get("host") + "/images/" + req.file.filename;
-  try {
-    const {image, error} = await addImageHelper.addImage(SpareShop ,user, profileImage);
-    if (error) {
-      return res.status(500).send({ error });
+    try {
+
+        const img = await SparePart.findOneAndUpdate({userId:id},
+           {image:profileImage}, {new:true})
+        res.status(200).send({img})
+    } catch (error) {
+        res.status(500).send({error:error.message})
     }
-    res.send({ profileImage, token });
-  } catch (error) {
-    res.status(500).send(error.message);
-  }
 };
 
 

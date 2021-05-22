@@ -50,21 +50,17 @@ exports.addProfileImage = async(req,res)=>{
 }
 
 exports.addVehicleImage = async (req, res) => {
-  const token = req.token;
-  const user = req.user;
+  const {vehicleImage} = req.body
+    const {id} = req.params
 
-  try {
-    vehicleImage =
-      req.protocol + "://" + req.get("host") + "/images/" + req.file.filename;
+    try {
 
-    await Driver.findByIdAndUpdate(user, vehicleImage, {
-      runValidators: true,
-      new: true,
-    });
-    res.send({ vehicleImage, token });
-  } catch (error) {
-    res.status(500).send(error.message);
-  }
+        const img = await Driver.findOneAndUpdate({userId:id},
+           {vehicleImage:vehicleImage}, {new:true})
+        res.status(200).send({img})
+    } catch (error) {
+        res.status(500).send({error:error.message})
+    }
 };
 
 exports.driver = async (req, res) => {

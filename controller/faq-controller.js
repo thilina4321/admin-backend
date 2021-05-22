@@ -2,11 +2,6 @@ const FAQ = require('../model/faq/faq-model')
 
 exports.newQuestion = async(req,res)=>{
   const data = req.body
-  const token = req.token
-  let url;
-  if(req.file){
-    url = req.protocol + '://' + req.get('host') + '/images/' + req.file.filename
-  }
 
   try {
     const question = new FAQ({

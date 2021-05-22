@@ -11,7 +11,7 @@ router.post('/signup', userController.createMechanic)
 router.post('/login', userController.loginMechanic)
 
 router.post('/add-data', mechanicController.createMechanic)
-router.patch('/pro-pic', multer, mechanicController.addProfileImage)
+router.patch('/pro-pic/:id', mechanicController.addProfileImage)
 
 router.get('/mechanics', mechanicController.allMechanics)
 router.get('/mechanic/:id', mechanicController.findOneMechanic)

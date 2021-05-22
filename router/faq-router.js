@@ -8,7 +8,7 @@ const authDriver = require('../middleware/auth/driver-token')
 const authMechanic = require('../middleware/auth/mechanic-token')
 const Auth = require('../middleware/user')
 
-router.post('/create', multer, faqController.newQuestion)
+router.post('/create', faqController.newQuestion)
 router.delete('/delete/:id', faqController.deleteFAQ)
 
 router.post('/give-answer', faqController.giveAnswer)

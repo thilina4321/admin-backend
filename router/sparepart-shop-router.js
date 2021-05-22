@@ -11,7 +11,7 @@ router.post('/signup', userController.createSpareShop)
 router.post('/login', userController.loginSpareShop)
 
 router.post('/add-data', sparepartShopController.createSpareShop)
-router.patch('/pro-pic',[Auth, SpareShop],multer, sparepartShopController.addProfileImage)
+router.patch('/pro-pic/:id', sparepartShopController.addProfileImage)
 router.get('/shops', sparepartShopController.allSpareshop)
 
 router.delete('/delete-spareshop/:id/:userId', sparepartShopController.deleteSpareShop)
