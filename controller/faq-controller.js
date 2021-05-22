@@ -6,7 +6,7 @@ exports.newQuestion = async(req,res)=>{
   try {
     const question = new FAQ({
       question:data.question,
-      questionImage:url,
+      questionImage:data.questionImage,
       driverId:data.driverId
     })
     const savedQuestion = await question.save()
