@@ -6,6 +6,14 @@ const addImageHelper = require("../helper/image-helper");
 const User = require("../model/Auth-model");
 const Appointment = require("../model/appointment");
 
+const cloudinary = require('cloudinary').v2
+
+cloudinary.config({
+    cloud_name: 'ddo9tyz6e',
+    api_key: '569274784458179',
+    api_secret: 'oCiMpvBFI7vwss_neBTabU6PuaI'
+  });
+
 exports.createDriver = async (req, res) => {
   const data = req.body;
 
@@ -23,26 +31,22 @@ exports.createDriver = async (req, res) => {
   }
 };
 
-exports.addProfileImage = async (req, res) => {
-  const token = req.token;
-  const user = req.user;
 
-  profileImage =
-    req.protocol + "://" + req.get("host") + "/images/" + req.file.filename;
-  try {
-    const { image, error } = await addImageHelper.addImage(
-      Driver,
-      user,
-      profileImage
-    );
-    if (error) {
-      return res.status(500).send({ error });
+
+
+
+exports.addProfileImage = async(req,res)=>{
+    const {data} = req.body
+    const id = req.body
+
+    try {
+        const image = await cloudinary.uploader.upload(data)
+        const proImage = await Driver.findOneAndUpdate({userId:id}, {profileImage:image.url}, {new:true})
+        res.status(200).send({proImage})
+    } catch (error) {
+        res.status(500).send({error:error.message})
     }
-    res.send({ profileImage, token });
-  } catch (error) {
-    res.status(500).send(error.message);
-  }
-};
+}
 
 exports.addVehicleImage = async (req, res) => {
   const token = req.token;
@@ -327,3 +331,6 @@ exports.findAppointments = async (req, res) => {
     res.status(500).send({ error: error.message });
   }
 };
+
+
+
