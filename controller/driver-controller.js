@@ -36,13 +36,13 @@ exports.createDriver = async (req, res) => {
 
 
 exports.addProfileImage = async(req,res)=>{
-    const {data} = req.body
+    const {proImage} = req.body
     const id = req.params
 
     try {
-        const image = await cloudinary.uploader.upload(data)
-        const proImage = await Driver.findOneAndUpdate({userId:id}, {profileImage:image.url}, {new:true})
-        res.status(200).send({proImage})
+        const image = await cloudinary.uploader.upload(proImage)
+        const profileImage = await Driver.findOneAndUpdate({userId:id}, {profileImage:image.url}, {new:true})
+        res.status(200).send({profileImage})
     } catch (error) {
         res.status(500).send({error:error.message})
     }
