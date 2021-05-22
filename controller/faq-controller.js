@@ -11,7 +11,7 @@ exports.newQuestion = async(req,res)=>{
     })
     const savedQuestion = await question.save()
 
-    res.status(201).send({savedQuestion, token})
+    res.status(201).send({savedQuestion})
 
   } catch (error) {
     res.status(500).send(error.message)
