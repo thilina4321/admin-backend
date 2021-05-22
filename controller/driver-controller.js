@@ -41,9 +41,8 @@ exports.addProfileImage = async(req,res)=>{
 
     try {
 
-        const image = await cloudinary.uploader.upload(proImage)
         const img = await Driver.findOneAndUpdate({userId:id},
-           {profileImage:image.url}, {new:true})
+           {profileImage:proImage}, {new:true})
         res.status(200).send({img})
     } catch (error) {
         res.status(500).send({error:proImage})
