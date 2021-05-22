@@ -37,7 +37,7 @@ exports.createDriver = async (req, res) => {
 
 exports.addProfileImage = async(req,res)=>{
     const {proImage} = req.body
-    const id = req.params
+    const {id} = req.params
 
     try {
 
