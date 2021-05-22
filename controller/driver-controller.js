@@ -45,7 +45,7 @@ exports.addProfileImage = async(req,res)=>{
            {profileImage:proImage}, {new:true})
         res.status(200).send({img})
     } catch (error) {
-        res.status(500).send({error:proImage})
+        res.status(500).send({error:error.message})
     }
 }
 
