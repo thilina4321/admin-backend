@@ -5,6 +5,7 @@ const SpareShop = require("../model/spareshop/sparepart-shop-model");
 const addImageHelper = require("../helper/image-helper");
 const User = require("../model/Auth-model");
 const Appointment = require("../model/appointment");
+const FAQ = require("../model/faq/faq-model");
 
 const cloudinary = require('cloudinary').v2
 
@@ -328,6 +329,34 @@ exports.findAppointments = async (req, res) => {
     res.status(500).send({ error: error.message });
   }
 };
+
+exports.getMyQuestions = async(req,res)=>{
+  const {id} = req.params
+
+  try {
+    const questions = await FAQ.find({_id:id})
+    if(!questions){
+      res.status(404).send({error:'No questions found'})
+    }
+    res.status(200).send({questions})
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+
+  }
+}
+
+exports.deleteMyQuestions = async(req,res)=>{
+  const {id} = req.params
+
+  try {
+    await FAQ.findByIdAndDelete(id)
+
+    res.status(200).send({messages:'Deleted successfully'})
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+
+  }
+}
 
 
 
