@@ -334,7 +334,7 @@ exports.getMyQuestions = async(req,res)=>{
   const {id} = req.params
 
   try {
-    const questions = await FAQ.find({_id:id})
+    const questions = await FAQ.find({driverId:id})
     if(!questions){
       res.status(404).send({error:'No questions found'})
     }
