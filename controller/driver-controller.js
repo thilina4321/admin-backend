@@ -7,16 +7,17 @@ const User = require("../model/Auth-model");
 const Appointment = require("../model/appointment");
 const FAQ = require("../model/faq/faq-model");
 
-const cloudinary = require('cloudinary').v2
+const cloudinary = require("cloudinary").v2;
 
 cloudinary.config({
-    cloud_name: 'ddo9tyz6e',
-    api_key: '569274784458179',
-    api_secret: 'oCiMpvBFI7vwss_neBTabU6PuaI'
-  });
+  cloud_name: "ddo9tyz6e",
+  api_key: "569274784458179",
+  api_secret: "oCiMpvBFI7vwss_neBTabU6PuaI",
+});
 
 exports.createDriver = async (req, res) => {
   const data = req.body;
+
 
   try {
     const driverData = new Driver({
@@ -32,36 +33,46 @@ exports.createDriver = async (req, res) => {
   }
 };
 
+exports.allDrivers = async (req, res) => {
+  try {
+    const driver = await Driver.find();
 
+    return res.status(200).send({ driver });
+  } catch (e) {
+    return res.status(500).send(e.message);
+  }
+};
 
+exports.addProfileImage = async (req, res) => {
+  const { proImage } = req.body;
+  const { id } = req.params;
 
-
-exports.addProfileImage = async(req,res)=>{
-    const {proImage} = req.body
-    const {id} = req.params
-
-    try {
-
-        const img = await Driver.findOneAndUpdate({userId:id},
-           {profileImage:proImage}, {new:true})
-        res.status(200).send({img})
-    } catch (error) {
-        res.status(500).send({error:error.message})
-    }
-}
+  try {
+    const img = await Driver.findOneAndUpdate(
+      { userId: id },
+      { profileImage: proImage },
+      { new: true }
+    );
+    res.status(200).send({ img });
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+};
 
 exports.addVehicleImage = async (req, res) => {
-  const {vehicleImage} = req.body
-    const {id} = req.params
+  const { vehicleImage } = req.body;
+  const { id } = req.params;
 
-    try {
-
-        const img = await Driver.findOneAndUpdate({userId:id},
-           {vehicleImage:vehicleImage}, {new:true})
-        res.status(200).send({img})
-    } catch (error) {
-        res.status(500).send({error:error.message})
-    }
+  try {
+    const img = await Driver.findOneAndUpdate(
+      { userId: id },
+      { vehicleImage: vehicleImage },
+      { new: true }
+    );
+    res.status(200).send({ img });
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
 };
 
 exports.driver = async (req, res) => {
@@ -122,7 +133,7 @@ exports.mechanicRating = async (req, res, next) => {
 
     if (findRatedOneOrNot) {
       findSomeOneForRate.totalRating =
-        (findSomeOneForRate.totalRating + rating - findRatedOneOrNot.rating)
+        findSomeOneForRate.totalRating + rating - findRatedOneOrNot.rating;
       findRatedOneOrNot.rating = rating;
       await findSomeOneForRate.save();
       return res.send(findSomeOneForRate);
@@ -130,8 +141,7 @@ exports.mechanicRating = async (req, res, next) => {
       findSomeOneForRate.count += 1;
 
       findSomeOneForRate.ratings.push({ rating, driverId: driverId });
-      findSomeOneForRate.totalRating =
-        (findSomeOneForRate.totalRating + rating)
+      findSomeOneForRate.totalRating = findSomeOneForRate.totalRating + rating;
       await findSomeOneForRate.save();
       return res.send(findSomeOneForRate);
     }
@@ -176,15 +186,14 @@ exports.serviceCenterRating = async (req, res, next) => {
 
     if (findRatedOneOrNot) {
       findSomeOneForRate.totalRating =
-        (findSomeOneForRate.totalRating + rating - findRatedOneOrNot.rating)
+        findSomeOneForRate.totalRating + rating - findRatedOneOrNot.rating;
       findRatedOneOrNot.rating = rating;
       await findSomeOneForRate.save();
       return res.send(findSomeOneForRate);
     } else {
       findSomeOneForRate.count += 1;
       findSomeOneForRate.ratings.push({ rating, driverId: driverId });
-      findSomeOneForRate.totalRating =
-        (findSomeOneForRate.totalRating + rating)
+      findSomeOneForRate.totalRating = findSomeOneForRate.totalRating + rating;
       await findSomeOneForRate.save();
       return res.send(findSomeOneForRate);
     }
@@ -229,7 +238,7 @@ exports.spareShopRating = async (req, res, next) => {
 
     if (findRatedOneOrNot) {
       findSomeOneForRate.totalRating =
-        (findSomeOneForRate.totalRating + rating - findRatedOneOrNot.rating)
+        findSomeOneForRate.totalRating + rating - findRatedOneOrNot.rating;
       findRatedOneOrNot.rating = rating;
       await findSomeOneForRate.save();
       return res.send(findSomeOneForRate);
@@ -237,8 +246,7 @@ exports.spareShopRating = async (req, res, next) => {
       findSomeOneForRate.count += 1;
 
       findSomeOneForRate.ratings.push({ rating, driverId: driverId });
-      findSomeOneForRate.totalRating =
-        (findSomeOneForRate.totalRating + rating)
+      findSomeOneForRate.totalRating = findSomeOneForRate.totalRating + rating;
       await findSomeOneForRate.save();
       return res.send(findSomeOneForRate);
     }
@@ -320,8 +328,8 @@ exports.findAppointments = async (req, res) => {
   try {
     const appointment = await Appointment.find({ driverId });
 
-    if(!appointment){
-      return res.status(404).send({'message':'No Appointment found'})
+    if (!appointment) {
+      return res.status(404).send({ message: "No Appointment found" });
     }
 
     res.status(201).send({ appointment });
@@ -330,33 +338,28 @@ exports.findAppointments = async (req, res) => {
   }
 };
 
-exports.getMyQuestions = async(req,res)=>{
-  const {id} = req.params
+exports.getMyQuestions = async (req, res) => {
+  const { id } = req.params;
 
   try {
-    const questions = await FAQ.find({driverId:id})
-    if(!questions){
-      res.status(404).send({error:'No questions found'})
+    const questions = await FAQ.find({ driverId: id });
+    if (!questions) {
+      res.status(404).send({ error: "No questions found" });
     }
-    res.status(200).send({questions})
+    res.status(200).send({ questions });
   } catch (error) {
     res.status(500).send({ error: error.message });
-
   }
-}
+};
 
-exports.deleteMyQuestions = async(req,res)=>{
-  const {id} = req.params
+exports.deleteMyQuestions = async (req, res) => {
+  const { id } = req.params;
 
   try {
-    await FAQ.findByIdAndDelete(id)
+    await FAQ.findByIdAndDelete(id);
 
-    res.status(200).send({messages:'Deleted successfully'})
+    res.status(200).send({ messages: "Deleted successfully" });
   } catch (error) {
     res.status(500).send({ error: error.message });
-
   }
-}
-
-
-
+};

@@ -19,6 +19,16 @@ exports.createSpareShop = async (req, res) => {
   }
 };
 
+exports.allSpareShops = async (req, res) => {
+  try {
+    const spareshop = await SpareShop.find();
+
+    return res.status(200).send({ spareshop });
+  } catch (e) {
+    return res.status(500).send(e.message);
+  }
+};
+
 exports.addProfileImage = async (req, res) => {
   const {profileImage} = req.body
     const {id} = req.params
@@ -77,7 +87,7 @@ exports.updateSpareShop = async(req,res)=>{
   const id = req.params.id
   try {
 
-    await SpareShop.findOneAndUpdate({user}, {...data}, {new:true, runValidators:true})
+    await SpareShop.findOneAndUpdate(id, {...data}, {new:true, runValidators:true})
     res.status(200).send({'message':'update succeed'})
 
   } catch (error) {

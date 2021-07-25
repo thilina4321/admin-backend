@@ -17,6 +17,16 @@ exports.createMechanic = async (req, res) => {
   }
 };
 
+exports.allMecs = async (req, res) => {
+  try {
+    const mechanics = await Mechanic.find();
+
+    return res.status(200).send({ mechanics });
+  } catch (e) {
+    return res.status(500).send(e.message);
+  }
+};
+
 exports.addProfileImage = async (req, res) => {
   const {profileImage} = req.body
     const {id} = req.params

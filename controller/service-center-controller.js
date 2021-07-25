@@ -20,6 +20,16 @@ exports.createServiceCenter = async (req, res) => {
   }
 };
 
+exports.allCenters = async (req, res) => {
+  try {
+    const serviceCenter = await ServiceCenter.find();
+
+    return res.status(200).send({ serviceCenter });
+  } catch (e) {
+    return res.status(500).send(e.message);
+  }
+};
+
 
 exports.addProfileImage = async (req, res) => {
   const {profileImage} = req.body

@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const mongoose = require("mongoose");
-const cors = require("cors");
+const cors = require('cors');
 require("dotenv").config();
 
 //routers
@@ -33,7 +33,7 @@ app.use("/api/sparepart-shops", sparepartShopRouter);
 app.use("/api/faq", faqRouter)
 
 mongoose
-  .connect(process.env.DATABASE_URL, {
+  .connect(process.env.DATABASE, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
@@ -45,7 +45,7 @@ mongoose
     console.log("database not connected");
   });
 
-app.listen(process.env.PORT, () => {
+app.listen(port, () => {
   console.log("app runs on port ", process.env.PORT);
 });
 

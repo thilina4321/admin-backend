@@ -13,6 +13,8 @@ router.post('/login', userController.loginSpareShop)
 router.post('/add-data', sparepartShopController.createSpareShop)
 router.patch('/pro-pic/:id', sparepartShopController.addProfileImage)
 router.get('/shops', sparepartShopController.allSpareshop)
+router.get('/spare-shops', sparepartShopController.allSpareShops)
+
 
 router.delete('/delete-spareshop/:id/:userId', sparepartShopController.deleteSpareShop)
 router.get('/spare-shop/:id', sparepartShopController.findOneSpareShop)

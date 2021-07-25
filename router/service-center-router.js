@@ -13,6 +13,8 @@ router.post('/login', userController.loginMechanic)
 router.post('/add-data', servicCenterController.createServiceCenter)
 router.patch('/pro-pic/:id', servicCenterController.addProfileImage)
 router.get('/service-centers', servicCenterController.allServiceCnter)
+router.get('/centers', servicCenterController.allServiceCnter)
+
 
 router.delete('/delete-service-center/:id/:userId',
  servicCenterController.deleteServiceCnter)

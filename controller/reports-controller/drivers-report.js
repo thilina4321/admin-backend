@@ -35,11 +35,10 @@ exports.driverReport = async (req, res) => {
   pdfDoc.text(" ");
 
   drivers.forEach((driver) => {
-    pdfDoc.fontSize(15).text("Name: " + driver.name);
+    pdfDoc.fontSize(15).text("Name: " + driver.userName);
     pdfDoc.text(" ");
     pdfDoc.text(" ");
     pdfDoc.fontSize(12).text("Id:   " + driver._id);
-    pdfDoc.text("Email:   " + driver.email);
     pdfDoc.text("Nic:    " + driver.nic);
     pdfDoc.text("Mobile:   " + driver.mobile);
     pdfDoc.text("Vehicle Number:   " + driver.vehicleNumber);
